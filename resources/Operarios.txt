@@ -1,0 +1,6 @@
+Hector;Garcia;200047275000;3
+Jose;Puma;200045121000;4
+Rainer;Romero;200048563000;5
+Diego;Castaño;200034004000;7
+Manuel;Guerra;200047514000;8
+andrés;Simancas Mateus;200055111;1

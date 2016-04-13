@@ -1,0 +1,83 @@
+c:\users\hp\documents\visual studio 2013\Projects\RPU5\RPU5\bin\Debug\RPU5.exe.config
+c:\users\hp\documents\visual studio 2013\Projects\RPU5\RPU5\bin\Debug\RPU5.exe
+c:\users\hp\documents\visual studio 2013\Projects\RPU5\RPU5\bin\Debug\RPU5.pdb
+c:\users\hp\documents\visual studio 2013\Projects\RPU5\RPU5\obj\Debug\RPU5.csprojResolveAssemblyReference.cache
+c:\users\hp\documents\visual studio 2013\Projects\RPU5\RPU5\obj\Debug\RPU5.Main.resources
+c:\users\hp\documents\visual studio 2013\Projects\RPU5\RPU5\obj\Debug\RPU5.Properties.Resources.resources
+c:\users\hp\documents\visual studio 2013\Projects\RPU5\RPU5\obj\Debug\RPU5.csproj.GenerateResource.Cache
+c:\users\hp\documents\visual studio 2013\Projects\RPU5\RPU5\obj\Debug\RPU5.exe
+c:\users\hp\documents\visual studio 2013\Projects\RPU5\RPU5\obj\Debug\RPU5.pdb
+C:\Users\HP\Documents\Visual Studio 2013\Projects\RPU5\RPU5\obj\Debug\RPU5.ProblemasLog.resources
+C:\Users\HP\Documents\Visual Studio 2013\Projects\RPU5\RPU5\obj\Debug\RPU5.ReporteFinal.resources
+C:\Users\HP\Documents\Visual Studio 2013\Projects\RPU5\RPU5\obj\Debug\RPU5.OrdenForm.resources
+C:\Users\HP\documents\visual studio 2013\Projects\RPU5\RPU5\obj\Debug\RPU5.Nuevo_Operario.resources
+C:\Users\HP\documents\visual studio 2013\Projects\RPU5\RPU5\obj\Debug\RPU5.Nuevo_Producto.resources
+C:\Users\HP\documents\visual studio 2013\Projects\RPU5\RPU5\obj\Debug\RPU5.VerOperarios.resources
+C:\Users\HP\documents\visual studio 2013\Projects\RPU5\RPU5\obj\Debug\RPU5.VerOrdenes.resources
+C:\Users\HP\documents\visual studio 2013\Projects\RPU5\RPU5\bin\Debug\Impinj.OctaneSdk.dll
+C:\Users\HP\documents\visual studio 2013\Projects\RPU5\RPU5\bin\Debug\LLRP.dll
+C:\Users\HP\documents\visual studio 2013\Projects\RPU5\RPU5\bin\Debug\LLRP.Impinj.dll
+C:\Users\HP\documents\visual studio 2013\Projects\RPU5\RPU5\bin\Debug\Impinj.OctaneSdk.pdb
+C:\Users\HP\documents\visual studio 2013\Projects\RPU5\RPU5\bin\Debug\Impinj.OctaneSdk.xml
+C:\Users\HP\documents\visual studio 2013\Projects\RPU5\RPU5\bin\Debug\LLRP.pdb
+C:\Users\HP\documents\visual studio 2013\Projects\RPU5\RPU5\bin\Debug\LLRP.Impinj.pdb
+C:\Users\Iván\Downloads\trabajo\RPU5\RPU5\bin\Debug\RPU5.exe.config
+C:\Users\Iván\Downloads\trabajo\RPU5\RPU5\obj\Debug\RPU5.exe
+C:\Users\Iván\Downloads\trabajo\RPU5\RPU5\obj\Debug\RPU5.pdb
+C:\Users\Iván\Downloads\trabajo\RPU5\RPU5\bin\Debug\RPU5.exe
+C:\Users\Iván\Downloads\trabajo\RPU5\RPU5\bin\Debug\RPU5.pdb
+C:\Users\Iván\Downloads\trabajo\RPU5\RPU5\bin\Debug\Impinj.OctaneSdk.pdb
+C:\Users\Iván\Downloads\trabajo\RPU5\RPU5\bin\Debug\Impinj.OctaneSdk.xml
+C:\Users\Iván\Downloads\trabajo\RPU5\RPU5\bin\Debug\LLRP.pdb
+C:\Users\Iván\Downloads\trabajo\RPU5\RPU5\bin\Debug\LLRP.Impinj.pdb
+C:\Users\Iván\Downloads\trabajo\RPU5\RPU5\obj\Debug\RPU5.csprojResolveAssemblyReference.cache
+C:\Users\Iván\Downloads\trabajo\RPU5\RPU5\obj\Debug\RPU5.Main.resources
+C:\Users\Iván\Downloads\trabajo\RPU5\RPU5\obj\Debug\RPU5.Nuevo_Operario.resources
+C:\Users\Iván\Downloads\trabajo\RPU5\RPU5\obj\Debug\RPU5.Nuevo_Producto.resources
+C:\Users\Iván\Downloads\trabajo\RPU5\RPU5\obj\Debug\RPU5.OrdenForm.resources
+C:\Users\Iván\Downloads\trabajo\RPU5\RPU5\obj\Debug\RPU5.ProblemasLog.resources
+C:\Users\Iván\Downloads\trabajo\RPU5\RPU5\obj\Debug\RPU5.Properties.Resources.resources
+C:\Users\Iván\Downloads\trabajo\RPU5\RPU5\obj\Debug\RPU5.ReporteFinal.resources
+C:\Users\Iván\Downloads\trabajo\RPU5\RPU5\obj\Debug\RPU5.VerOperarios.resources
+C:\Users\Iván\Downloads\trabajo\RPU5\RPU5\obj\Debug\RPU5.VerOrdenes.resources
+C:\Users\Iván\Downloads\trabajo\RPU5\RPU5\obj\Debug\RPU5.csproj.GenerateResource.Cache
+C:\Users\Juanc\Documents\Comunicaciones\Bases de Datos\Bases de Datos Iván Ramirez\RPU5\RPU5\bin\Debug\RPU5.exe.config
+C:\Users\Juanc\Documents\Comunicaciones\Bases de Datos\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.exe
+C:\Users\Juanc\Documents\Comunicaciones\Bases de Datos\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.pdb
+C:\Users\Juanc\Documents\Comunicaciones\Bases de Datos\Bases de Datos Iván Ramirez\RPU5\RPU5\bin\Debug\RPU5.exe
+C:\Users\Juanc\Documents\Comunicaciones\Bases de Datos\Bases de Datos Iván Ramirez\RPU5\RPU5\bin\Debug\RPU5.pdb
+C:\Users\Juanc\Documents\Comunicaciones\Bases de Datos\Bases de Datos Iván Ramirez\RPU5\RPU5\bin\Debug\Impinj.OctaneSdk.pdb
+C:\Users\Juanc\Documents\Comunicaciones\Bases de Datos\Bases de Datos Iván Ramirez\RPU5\RPU5\bin\Debug\Impinj.OctaneSdk.xml
+C:\Users\Juanc\Documents\Comunicaciones\Bases de Datos\Bases de Datos Iván Ramirez\RPU5\RPU5\bin\Debug\LLRP.pdb
+C:\Users\Juanc\Documents\Comunicaciones\Bases de Datos\Bases de Datos Iván Ramirez\RPU5\RPU5\bin\Debug\LLRP.Impinj.pdb
+C:\Users\Juanc\Documents\Comunicaciones\Bases de Datos\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.csprojResolveAssemblyReference.cache
+C:\Users\Juanc\Documents\Comunicaciones\Bases de Datos\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.Main.resources
+C:\Users\Juanc\Documents\Comunicaciones\Bases de Datos\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.Nuevo_Operario.resources
+C:\Users\Juanc\Documents\Comunicaciones\Bases de Datos\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.Nuevo_Producto.resources
+C:\Users\Juanc\Documents\Comunicaciones\Bases de Datos\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.OrdenForm.resources
+C:\Users\Juanc\Documents\Comunicaciones\Bases de Datos\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.ProblemasLog.resources
+C:\Users\Juanc\Documents\Comunicaciones\Bases de Datos\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.Properties.Resources.resources
+C:\Users\Juanc\Documents\Comunicaciones\Bases de Datos\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.ReporteFinal.resources
+C:\Users\Juanc\Documents\Comunicaciones\Bases de Datos\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.VerOperarios.resources
+C:\Users\Juanc\Documents\Comunicaciones\Bases de Datos\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.VerOrdenes.resources
+C:\Users\Juanc\Documents\Comunicaciones\Bases de Datos\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.csproj.GenerateResource.Cache
+C:\Users\win8\Desktop\Bases de Datos Iván Ramirez\RPU5\RPU5\bin\Debug\RPU5.exe.config
+C:\Users\win8\Desktop\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.exe
+C:\Users\win8\Desktop\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.pdb
+C:\Users\win8\Desktop\Bases de Datos Iván Ramirez\RPU5\RPU5\bin\Debug\RPU5.exe
+C:\Users\win8\Desktop\Bases de Datos Iván Ramirez\RPU5\RPU5\bin\Debug\RPU5.pdb
+C:\Users\win8\Desktop\Bases de Datos Iván Ramirez\RPU5\RPU5\bin\Debug\Impinj.OctaneSdk.pdb
+C:\Users\win8\Desktop\Bases de Datos Iván Ramirez\RPU5\RPU5\bin\Debug\Impinj.OctaneSdk.xml
+C:\Users\win8\Desktop\Bases de Datos Iván Ramirez\RPU5\RPU5\bin\Debug\LLRP.pdb
+C:\Users\win8\Desktop\Bases de Datos Iván Ramirez\RPU5\RPU5\bin\Debug\LLRP.Impinj.pdb
+C:\Users\win8\Desktop\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.csprojResolveAssemblyReference.cache
+C:\Users\win8\Desktop\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.Main.resources
+C:\Users\win8\Desktop\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.Nuevo_Operario.resources
+C:\Users\win8\Desktop\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.Nuevo_Producto.resources
+C:\Users\win8\Desktop\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.OrdenForm.resources
+C:\Users\win8\Desktop\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.ProblemasLog.resources
+C:\Users\win8\Desktop\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.Properties.Resources.resources
+C:\Users\win8\Desktop\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.ReporteFinal.resources
+C:\Users\win8\Desktop\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.VerOperarios.resources
+C:\Users\win8\Desktop\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.VerOrdenes.resources
+C:\Users\win8\Desktop\Bases de Datos Iván Ramirez\RPU5\RPU5\obj\Debug\RPU5.csproj.GenerateResource.Cache
