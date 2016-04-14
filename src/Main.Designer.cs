@@ -1,6 +1,6 @@
 ﻿namespace RPU5
 {
-    partial class Form1
+    partial class Main
     {
         /// <summary>
         /// Required designer variable.
