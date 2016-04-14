@@ -89,11 +89,11 @@ namespace RPU5
             int totalProd = canta + cantc + cantd;
             Producto[] productos = new Producto[totalProd];
             if (System.IO.File.Exists(recursos + "/Orden.txt")) { System.IO.File.Delete(recursos + "/Orden.txt");}
-            if (System.IO.File.Exists(recursos + "/EPCs.txt")) { System.IO.File.Delete(recursos + "/EPCs.txt"); }
+           // if (System.IO.File.Exists(recursos + "/EPCs.txt")) { System.IO.File.Delete(recursos + "/EPCs.txt"); }
             System.IO.StreamWriter file =
                 new System.IO.StreamWriter(recursos + "/Orden.txt");
-            System.IO.StreamWriter file0 =
-                new System.IO.StreamWriter(recursos + "/EPCs.txt");
+            //System.IO.StreamWriter file0 =
+            //    new System.IO.StreamWriter(recursos + "/EPCs.txt");
             String lastEPC = getLastEPC();
             long epcInt = Convert.ToInt64(lastEPC, 16);
             for (int i=0; i<totalProd;i++)
@@ -111,10 +111,10 @@ namespace RPU5
                 epcInt++;
                 String id= epcInt.ToString("X");
                 file.WriteLine("" + tipo);
-                file0.WriteLine("" + id);
+                //file0.WriteLine("" + id);
             }
             file.Close();
-            file0.Close();
+            //file0.Close();
             MessageBox.Show("Orden Seleccionada con éxito.","Aviso");
             this.DialogResult = DialogResult.OK;
         }

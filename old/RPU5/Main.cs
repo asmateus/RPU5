@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 using System.Diagnostics;
+using portalesrcl;
 
 namespace RPU5
 {
@@ -57,16 +58,15 @@ namespace RPU5
 
         public Main()
         {
-			
             InitializeComponent();
             this.completados = 0;
-			this.red = @"/media/asmateus/ASMATEUS/7-Semestre/Comunicaciones/proyecto_final/LAIN-GNOME/RFID/estaciones/textos/"; //colocar la ruta de texto de estaciones
-			recursos = @"/media/asmateus/ASMATEUS/7-Semestre/Comunicaciones/proyecto_final/LAIN-GNOME/RFID/Recursos/"; //Aquí la direccion de recursos
+            this.red = @"C:\Users\Administrador\Desktop\base_de_datos\RPU5\old\RFID\estaciones\textos\"; //colocar la ruta de texto de estaciones
+            recursos = @"C:\Users\Administrador\Desktop\base_de_datos\RPU5\old\RFID\Recursos\"; //Aquí la direccion de recursos
             servidor = new Servidor(this.red, 10);
             // picking, estaciones 1 - 7, portal 1-2
-                //String rutaRainer = @"C:\Users\win8\Desktop\Recursos";
-                //String rutaHector = @"\\USER\Users\Public\RFID\picking";
-			rutaPicking = @"/media/asmateus/ASMATEUS/7-Semestre/Comunicaciones/proyecto_final/LAIN-GNOME/RFID/picking/";
+            //String rutaRainer = @"C:\Users\win8\Desktop\Recursos";
+            //String rutaHector = @"\\USER\Users\Public\RFID\picking";
+            rutaPicking = @"C:\Users\Administrador\Desktop\base_de_datos\RPU5\old\RFID\picking\";
             /*RutaRainer y RutaHector son equivalentes a RutaPicking del informe, como son dos grupos de picking con los
             que se tuvo que hacer pruebas simultaneas, entonces se tomaron variables para cada grupo*/
             String[] carpetas = { rutaPicking, red, red, red, red, red, red, red, red, red };
@@ -142,7 +142,7 @@ namespace RPU5
 
         private void acercaDeToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("RFID Process Unit 5.0 \n\nAutores:\nGuillermo León - Iván Ramirez\nJuan Sanchez - Diego Castaño\nDaniel Arrubla\n\nUniversidad del Norte\n\t2015", "Acerca del Programa");
+            MessageBox.Show("RFID Process Unit 5.2 \n\nAutores:\nGuillermo León - Iván Ramirez\nJuan Sanchez - Diego Castaño\nDaniel Arrubla\n\nUniversidad del Norte\n\t2015", "Acerca del Programa");
         }
 
         private void loadInitialData()
@@ -223,7 +223,7 @@ namespace RPU5
                             break;
                         }
                 }
-                file.WriteLine(c1 + " " + c2 + " " + c3 + ";" + tipo + ";conprioridad");
+                file.WriteLine(c1 + " " + c2 + " " + c3 + ";" + tipo);
             }
             //fin empanada 1
             file.Close();
@@ -232,22 +232,28 @@ namespace RPU5
         private void reviseAutorizados()
         {
             System.IO.StreamReader fileCuenta =
-                new System.IO.StreamReader(recursos + "Operarios.txt");
+                new System.IO.StreamReader(red + "/operariosestaciones.txt");
             String linea;
             int numOperarios = 0;
             while (((linea = fileCuenta.ReadLine()) != null))
             {
-                String[] cadenas = linea.Split(';');
-                if (Int32.Parse(cadenas[3]) >1)
-                { //esto es para evitar el error con las estaciones y operarios picker o de base 
-                    hayAutorizado[numOperarios] = false;
-                    numOperarios = numOperarios + 1;
+                String[] cadenas = cadenas = linea.Split(';');
+                //if (Int32.Parse(cadenas[3]) >1)
+                //{ //esto es para evitar el error con las estaciones y operarios picker o de base 
+                //    hayAutorizado[numOperarios] = false;
 
-                    //problema para guardar la posicion de cada linea que sí es de estaciones
-                    int estacion = Int32.Parse(cadenas[3]) - 1;
-                    hayAutorizado[estacion - 1] = true;
+
+                //    //problema para guardar la posicion de cada linea que sí es de estaciones
+                //    int estacion = Int32.Parse(cadenas[3]) - 1;
+                //    hayAutorizado[estacion - 1] = true;
+                //}
+                if (cadenas[0] == "si")
+                {
+                    hayAutorizado[numOperarios] = true;
+
                 }
-
+                else { hayAutorizado[numOperarios] = false; }
+                numOperarios = numOperarios + 1;
             }
             fileCuenta.Close();
 
@@ -274,8 +280,9 @@ namespace RPU5
             {
                 allStations = allStations && hayAutorizado[i];
             }
-            
-        }
+        
+
+    }
 
         private void testConnections()
         {
@@ -286,12 +293,12 @@ namespace RPU5
                 if ((i == 0) || (i > 7))
                 {
                     //flag = servidor.sendTo(i, recursos, "/test.txt", "/test.txt");
-                    flag = servidor.receiveFrom(rutaPicking, recursos, "test.txt");
+                    flag = servidor.receiveFrom(rutaPicking, recursos, "/test.txt");
 
                 }
                 else
                 {
-                    flag = servidor.receiveFrom(red, recursos, "conexionestacion" + i + ".txt");
+                    flag = servidor.receiveFrom(red, recursos, "/conexionestacion" + i + ".txt");
                 }
                 if (flag)
                 {
@@ -311,13 +318,14 @@ namespace RPU5
             {
                 estaciones[i] = new Estacion();
             }
+            updateLabels();
+            autorizados2operariosBase();
 
         }
 
         private void updateImages()
         {
             reviseAutorizados();
-            string ruta;
             int[] e = new int[9];
             for (int i = 0; i <= 8; i++)
             {
@@ -330,367 +338,230 @@ namespace RPU5
             {
                 allConnected = allConnected && c[i];
             }
-            
+
+            ////Empanada 2 2016: Conversor de texto a matriz :v
+            //System.IO.StreamReader file0 =
+            // new System.IO.StreamReader(recursos + "/Operarios.txt");
+            //// operariosbase= (0:epc, 1:estación, 2:nombre, 3:epc"código") .-.
+            //// operarios = (0:Nom, 1:apell, 2:cod, 3:estacion)
+            //int cant = 0;
+            //String line; String[] cadenas=null; String[,] texto = null;
+            //while ((line = file0.ReadLine()) != null)
+            //{
+            //    cadenas = line.Split(';');
+            //    for (int i = 0; i < cadenas.Length; i++)
+            //    {
+            //        texto[i, cant] = cadenas[i];
+            //    } //[filas][columnas]
+            //    cant++;
+            //}
+            //file0.Close();
+            //// aquí termina el conversor
+
+
             //Picking
-            if (c[0])
-            {
-                ruta = recursos + "/Connected.png";
-            }
-            else
-            {
-                ruta = recursos + "/Disconnected.png";
-            }
-            statusPic0.BackgroundImage = Image.FromFile(ruta);
-            switch (e[0])
-            {
-                case 0:
-                    {
-                        ruta = recursos + "/Avion.jpg";
-                        break;
-                    }
-                case 1:
-                    {
-                        ruta = recursos + "/Carro.jpg";
-                        break;
-                    }
-                case 2:
-                    {
-                        ruta = recursos + "/Dinosaurio.jpg";
-                        break;
-                    }
-                case 3:
-                    {
-                        ruta = recursos + "/Clock.png";
-                        break;
-                    }
-                case 4:
-                    {
-                        ruta = recursos + "/Ready.png";
-                        break;
-                    }
-                default:
-                    {
-                        ruta = recursos + "/Error.jpg";
-                        break;
-                    }
-            }
-            pictureBox0.BackgroundImage = Image.FromFile(ruta);
+            statusPic0.BackgroundImage= Image.FromFile(servidor.led(0,c, recursos));
+            pictureBox0.BackgroundImage = Image.FromFile(servidor.rellenarIma(0,e, recursos));
             pictureBox0.BackgroundImageLayout = ImageLayout.Stretch;
-            //E1
-            if (c[1])
-            {
-                ruta = recursos + "/Connected.png";
-            }
-            else
-            {
-                ruta = recursos + "/Disconnected.png";
-            }
-            statusPic1.BackgroundImage = Image.FromFile(ruta);
-            switch (e[1])
-            {
-                case 0:
-                    {
-                        ruta = recursos + "/Avion.jpg";
-                        break;
-                    }
-                case 1:
-                    {
-                        ruta = recursos + "/Carro.jpg";
-                        break;
-                    }
-                case 2:
-                    {
-                        ruta = recursos + "/Dinosaurio.jpg";
-                        break;
-                    }
-                case 3:
-                    {
-                        ruta = recursos + "/Clock.png";
-                        break;
-                    }
-                case 4:
-                    {
-                        ruta = recursos + "/Ready.png";
-                        break;
-                    }
-                default:
-                    {
-                        ruta = recursos + "/Error.jpg";
-                        break;
-                    }
-            }
-            pictureBox1.BackgroundImage = Image.FromFile(ruta);
+            //Estacion 1
+            statusPic1.BackgroundImage = Image.FromFile(servidor.led(1,c, recursos));
+            pictureBox1.BackgroundImage = Image.FromFile(servidor.rellenarIma(1,e, recursos));
             pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
-            //E2
-            if (c[2])
-            {
-                ruta = recursos + "/Connected.png";
-            }
-            else
-            {
-                ruta = recursos + "/Disconnected.png";
-            }
-            statusPic2.BackgroundImage = Image.FromFile(ruta);
-            switch (e[2])
-            {
-                case 0:
-                    {
-                        ruta = recursos + "/Avion.jpg";
-                        break;
-                    }
-                case 1:
-                    {
-                        ruta = recursos + "/Carro.jpg";
-                        break;
-                    }
-                case 2:
-                    {
-                        ruta = recursos + "/Dinosaurio.jpg";
-                        break;
-                    }
-                case 3:
-                    {
-                        ruta = recursos + "/Clock.png";
-                        break;
-                    }
-                case 4:
-                    {
-                        ruta = recursos + "/Ready.png";
-                        break;
-                    }
-                default:
-                    {
-                        ruta = recursos + "/Error.jpg";
-                        break;
-                    }
-            }
-            pictureBox2.BackgroundImage = Image.FromFile(ruta);
+            //Estacion 2
+            statusPic2.BackgroundImage = Image.FromFile(servidor.led(2,c, recursos));
+            pictureBox2.BackgroundImage = Image.FromFile(servidor.rellenarIma(2,e, recursos));
             pictureBox2.BackgroundImageLayout = ImageLayout.Stretch;
-            //E3
-            if (c[3])
-            {
-                ruta = recursos + "/Connected.png";
-            }
-            else
-            {
-                ruta = recursos + "/Disconnected.png";
-            }
-            statusPic3.BackgroundImage = Image.FromFile(ruta);
-            switch (e[3])
-            {
-                case 0:
-                    {
-                        ruta = recursos + "/Avion.jpg";
-                        break;
-                    }
-                case 1:
-                    {
-                        ruta = recursos + "/Carro.jpg";
-                        break;
-                    }
-                case 2:
-                    {
-                        ruta = recursos + "/Dinosaurio.jpg";
-                        break;
-                    }
-                case 3:
-                    {
-                        ruta = recursos + "/Clock.png";
-                        break;
-                    }
-                case 4:
-                    {
-                        ruta = recursos + "/Ready.png";
-                        break;
-                    }
-                default:
-                    {
-                        ruta = recursos + "/Error.jpg";
-                        break;
-                    }
-            }
-            pictureBox3.BackgroundImage = Image.FromFile(ruta);
+            //Estacion 3
+            statusPic3.BackgroundImage = Image.FromFile(servidor.led(3,c, recursos));
+            pictureBox3.BackgroundImage = Image.FromFile(servidor.rellenarIma(3,e, recursos));
             pictureBox3.BackgroundImageLayout = ImageLayout.Stretch;
-            //E4
-            if (c[4])
-            {
-                ruta = recursos + "/Connected.png";
-            }
-            else
-            {
-                ruta = recursos + "/Disconnected.png";
-            }
-            statusPic4.BackgroundImage = Image.FromFile(ruta);
-            switch (e[4])
-            {
-                case 0:
-                    {
-                        ruta = recursos + "/Avion.jpg";
-                        break;
-                    }
-                case 1:
-                    {
-                        ruta = recursos + "/Carro.jpg";
-                        break;
-                    }
-                case 2:
-                    {
-                        ruta = recursos + "/Dinosaurio.jpg";
-                        break;
-                    }
-                case 3:
-                    {
-                        ruta = recursos + "/Clock.png";
-                        break;
-                    }
-                case 4:
-                    {
-                        ruta = recursos + "/Ready.png";
-                        break;
-                    }
-                default:
-                    {
-                        ruta = recursos + "/Error.jpg";
-                        break;
-                    }
-            }
-            pictureBox4.BackgroundImage = Image.FromFile(ruta);
+            //Estacion 4
+            statusPic4.BackgroundImage = Image.FromFile(servidor.led(4,c, recursos));
+            pictureBox4.BackgroundImage = Image.FromFile(servidor.rellenarIma(4,e, recursos));
             pictureBox4.BackgroundImageLayout = ImageLayout.Stretch;
-            //E5
-            if (c[5])
-            {
-                ruta = recursos + "/Connected.png";
-            }
-            else
-            {
-                ruta = recursos + "/Disconnected.png";
-            }
-            statusPic5.BackgroundImage = Image.FromFile(ruta);
-            switch (e[5])
-            {
-                case 0:
-                    {
-                        ruta = recursos + "/Avion.jpg";
-                        break;
-                    }
-                case 1:
-                    {
-                        ruta = recursos + "/Carro.jpg";
-                        break;
-                    }
-                case 2:
-                    {
-                        ruta = recursos + "/Dinosaurio.jpg";
-                        break;
-                    }
-                case 3:
-                    {
-                        ruta = recursos + "/Clock.png";
-                        break;
-                    }
-                case 4:
-                    {
-                        ruta = recursos + "/Ready.png";
-                        break;
-                    }
-                default:
-                    {
-                        ruta = recursos + "/Error.jpg";
-                        break;
-                    }
-            }
-            pictureBox5.BackgroundImage = Image.FromFile(ruta);
+            //Estacion 5
+            statusPic5.BackgroundImage = Image.FromFile(servidor.led(5,c, recursos));
+            pictureBox5.BackgroundImage = Image.FromFile(servidor.rellenarIma(5,e, recursos));
             pictureBox5.BackgroundImageLayout = ImageLayout.Stretch;
-            //E6
-            if (c[6])
-            {
-                ruta = recursos + "/Connected.png";
-            }
-            else
-            {
-                ruta = recursos + "/Disconnected.png";
-            }
-            statusPic6.BackgroundImage = Image.FromFile(ruta);
-            switch (e[6])
-            {
-                case 0:
-                    {
-                        ruta = recursos + "/Avion.jpg";
-                        break;
-                    }
-                case 1:
-                    {
-                        ruta = recursos + "/Carro.jpg";
-                        break;
-                    }
-                case 2:
-                    {
-                        ruta = recursos + "/Dinosaurio.jpg";
-                        break;
-                    }
-                case 3:
-                    {
-                        ruta = recursos + "/Clock.png";
-                        break;
-                    }
-                case 4:
-                    {
-                        ruta = recursos + "/Ready.png";
-                        break;
-                    }
-                default:
-                    {
-                        ruta = recursos + "/Error.jpg";
-                        break;
-                    }
-            }
-            pictureBox6.BackgroundImage = Image.FromFile(ruta);
+            //Estacion 6
+            statusPic6.BackgroundImage = Image.FromFile(servidor.led(6,c, recursos));
+            pictureBox6.BackgroundImage = Image.FromFile(servidor.rellenarIma(6,e, recursos));
             pictureBox6.BackgroundImageLayout = ImageLayout.Stretch;
-            //E7
-            if (c[7])
-            {
-                ruta = recursos + "/Connected.png";
-            }
-            else
-            {
-                ruta = recursos + "/Disconnected.png";
-            }
-            statusPic7.BackgroundImage = Image.FromFile(ruta);
-            switch (e[7])
-            {
-                case 0:
-                    {
-                        ruta = recursos + "/Avion.jpg";
-                        break;
-                    }
-                case 1:
-                    {
-                        ruta = recursos + "/Carro.jpg";
-                        break;
-                    }
-                case 2:
-                    {
-                        ruta = recursos + "/Dinosaurio.jpg";
-                        break;
-                    }
-                case 3:
-                    {
-                        ruta = recursos + "/Clock.png";
-                        break;
-                    }
-                case 4:
-                    {
-                        ruta = recursos + "/Ready.png";
-                        break;
-                    }
-                default:
-                    {
-                        ruta = recursos + "/Error.jpg";
-                        break;
-                    }
-            }
-            pictureBox7.BackgroundImage = Image.FromFile(ruta);
+            //Estacion 7
+            statusPic7.BackgroundImage = Image.FromFile(servidor.led(7,c, recursos));
+            pictureBox7.BackgroundImage = Image.FromFile(servidor.rellenarIma(7,e, recursos));
             pictureBox7.BackgroundImageLayout = ImageLayout.Stretch;
+
+
+            ///////////Esto bota problemas de uso en varios subprocesos .-.
+            ////////System.IO.StreamReader file0 =
+            //////// new System.IO.StreamReader(recursos + "/Operarios.txt");
+            //////////operariosbase = (0:epc, 1:estación, 2:nombre, 3:epc"código") .-.
+            ////////// operarios = (0:Nom, 1:apell, 2:cod, 3:cargo)
+            ////////int cant = 0;
+            ////////String line; String[] cadenas;
+            ////////while ((line = file0.ReadLine()) != null)
+
+            ////////{
+            ////////    cadenas = line.Split(';');
+
+            ////////    switch (Int32.Parse(cadenas[3]))
+            ////////    {
+            ////////        case 1:
+            ////////            {
+            ////////                this.label8.Text = cadenas[0];
+            ////////                this.label10.Text = cadenas[2];
+            ////////                this.label4.Text = "Activo";
+            ////////                break;
+            ////////            }
+
+
+            ////////        case 2:
+            ////////            {
+
+            ////////                this.label13.Text = cadenas[0];
+            ////////                this.label11.Text = cadenas[2];
+            ////////                this.label17.Text = "Activo";
+            ////////                break;
+            ////////            }
+            ////////        case 3:
+            ////////            {
+            ////////                this.label21.Text = cadenas[0];
+            ////////                this.label19.Text = cadenas[2];
+            ////////                this.label25.Text = "Activo";
+            ////////                break;
+            ////////            }
+            ////////        case 4:
+            ////////            {
+
+            ////////                this.label29.Text = cadenas[0];
+            ////////                this.label27.Text = cadenas[2];
+            ////////                this.label33.Text = "Activo";
+            ////////                break;
+            ////////            }
+            ////////        case 5:
+            ////////            {
+            ////////                this.label37.Text = cadenas[0];
+            ////////                this.label35.Text = cadenas[2];
+            ////////                this.label41.Text = "Activo";
+            ////////                break;
+            ////////            }
+            ////////        case 6:
+            ////////            {
+
+            ////////                this.label45.Text = cadenas[0];
+            ////////                this.label43.Text = cadenas[2];
+            ////////                this.label49.Text = "Activo";
+            ////////                break;
+            ////////            }
+
+            ////////        case 7:
+            ////////            {
+            ////////                this.label53.Text = cadenas[0];
+            ////////                this.label51.Text = cadenas[2];
+            ////////                this.label57.Text = "Activo";
+            ////////                break;
+            ////////            }
+            ////////        case 8:
+            ////////            {
+
+            ////////                this.label61.Text = cadenas[0];
+            ////////                this.label59.Text = cadenas[2];
+            ////////                this.label65.Text = "Activo";
+            ////////                break;
+            ////////            }
+
+            ////////    }
+            ////////    cant++;
+            ////////}
+            ////////file0.Close();
+            ////////// aquí termina el conversor              
+        }
+
+        private void updateLabels() {
+            String[] newLineas = new String[50];
+            System.IO.StreamReader file0 =
+             new System.IO.StreamReader(recursos + "/Operarios.txt");
+            int cant = 0;
+            String line;
+            while ((line = file0.ReadLine()) != null)
+            {
+                newLineas[cant] = line; cant++;
+            }
+            file0.Close();
+            String[] cadenas;
+            for (int i = 0; i < cant; i++)
+            {
+                //Empanada 2 2016
+                cadenas = newLineas[i].Split(';');
+                // operariosbase= (0:epc, 1:estación, 2:nombre, 3:epc"código") .-.
+                switch (int.Parse(cadenas[3]))
+                {
+                    case 1:
+                        {
+                            this.label8.Text = cadenas[0] + " " + cadenas[1];
+                            this.label10.Text = cadenas[2];
+                            this.label4.Text = "Activo";
+                            break;
+                        }
+
+
+                    case 2:
+                        {
+
+                            this.label13.Text = cadenas[0] + " " + cadenas[1];
+                            this.label11.Text = cadenas[2];
+                            this.label17.Text = "Activo";
+                            break;
+                        }
+                    case 3:
+                        {
+                            this.label21.Text = cadenas[0] + " " + cadenas[1];
+                            this.label19.Text = cadenas[2];
+                            this.label25.Text = "Activo";
+                            break;
+                        }
+                    case 4:
+                        {
+
+                            this.label29.Text = cadenas[0] + " " + cadenas[1];
+                            this.label27.Text = cadenas[2];
+                            this.label33.Text = "Activo";
+                            break;
+                        }
+                    case 5:
+                        {
+                            this.label37.Text = cadenas[0] + " " + cadenas[1];
+                            this.label35.Text = cadenas[2];
+                            this.label41.Text = "Activo";
+                            break;
+                        }
+                    case 6:
+                        {
+
+                            this.label45.Text = cadenas[0] + " " + cadenas[1];
+                            this.label43.Text = cadenas[2];
+                            this.label49.Text = "Activo";
+                            break;
+                        }
+
+                    case 7:
+                        {
+                            this.label53.Text = cadenas[0] + " " + cadenas[1];
+                            this.label51.Text = cadenas[2];
+                            this.label57.Text = "Activo";
+                            break;
+                        }
+                    case 8:
+                        {
+
+                            this.label61.Text = cadenas[0] + " " + cadenas[1];
+                            this.label59.Text = cadenas[2];
+                            this.label65.Text = "Activo";
+                            break;
+                        }
+                }
+            }
         }
 
         private void updateStatusTags()
@@ -736,10 +607,12 @@ namespace RPU5
         {
             while (true)
             {
+                testConnections();
                 updateImages();
+                //updateLabels();
                 //Actualizar la barra de progreso
-                updateStatusTags();
                 checkEstaciones();
+                updateStatusTags();
                 Thread.Sleep(1500);
             }
         }
@@ -763,10 +636,12 @@ namespace RPU5
                     {
                         if (actualPicking < orden.getCantidad())
                         {
-                            while (!servidor.sendTo(PICKING, recursos,
-                            orden.getProducto(this.actualPicking).tipoToString() + ".txt", "/prueba.txt")) ; //aquí está el error
-                        
+                           while (!servidor.sendTo(PICKING, recursos,
+                                orden.getProducto(this.actualPicking).tipoToString() + ".txt", "/Pedido1.txt"));
+                           // orden.getProducto(this.actualPicking).tipoToString() = Avion, carro o dinosaurio
+
                             estaciones[PICKING].setStatus(orden.getProducto(this.actualPicking).getTipo() - 1);
+                           ;
                         }
                         else {
                             if (actualPicking == orden.getCantidad())
@@ -880,9 +755,11 @@ namespace RPU5
             {
                 //Empanada 1 2016
                 cadenas = nuevasLineas[i].Split(';');
-                // operarios = (0:Nom, 1:apell, 2:cod, 3:estacion)
-                // operariosbase= (0:epc, 1:estación, 2:nombre, 3:epc"código") .-.
-                file.WriteLine(cadenas[2] + ";" + cadenas[3]+ ";" + cadenas[0] +";" + cadenas[2]);
+                if (Int32.Parse(cadenas[3]) > 1) { 
+                    // operarios = (0:Nom, 1:epc, 2:cod, 3:estacion)
+                    // operariosbase= (0:epc, 1:estación, 2:nombre, 3:"código") .-.
+                    file.WriteLine(cadenas[1] + ";" + "" + (Int32.Parse(cadenas[3]) - 1) + ";" + cadenas[0] + ";" + cadenas[2]);
+                }
             }
             file.Close();
         }
@@ -910,7 +787,6 @@ namespace RPU5
             }
             else
             {
-				
                 String Mensaje = "No se puede iniciar el proceso. No se cumplen las condiciones: \n\n";
                 if (!ordenSelected)
                 {
@@ -952,10 +828,10 @@ namespace RPU5
 
         private void portalesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Portales h = new Portales();
-            //h.Show();
+            portal h = new portal();
+            h.Show();
         }
-
+        
         private void operariosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             VerOperarios h = new VerOperarios(recursos);
@@ -963,65 +839,36 @@ namespace RPU5
         }
 
         private void checkEstaciones()
-        {/*
-            String line; String tipoString;
-            while (true)
-            {
-                try
+        {
+           String[] newLineas = new String[50];
+            for (int i = 1; i <= 7; i++) {
+                servidor.receiveFrom(red, recursos, "/estacion" + i + ".txt");
+                System.IO.StreamReader file0 =
+                 new System.IO.StreamReader(recursos + "/estacion" + i + ".txt");
+                int cant2 = 0;
+                String line;
+                while ((line = file0.ReadLine()) != null)
                 {
-                for (int i = 1; i <= 7; i++)
-                {
-                    
-                        tipoString = "undefined";
-                        System.IO.StreamReader file =
-                            new System.IO.StreamReader(red + "estacion" + i + ".txt");
-                        bool sw = false;
-                        while (((line = file.ReadLine()) != null) && (!sw))
-                        {
-                            String[] cadenas = line.Split(';');
-                            if (cadenas[2].Equals("conprioridad"))
-                            {
-                                tipoString = cadenas[1];
-                            }
-                        }
-                        if (tipoString.Equals("avion"))
-                        {
-                            estaciones[i].setStatus(0);
-                        }
-                        else
-                        {
-                            if (tipoString.Equals("carro"))
-                            {
-                                estaciones[i].setStatus(1);
-                            }
-                            else
-                            {
-                                if (tipoString.Equals("dinosaurio"))
-                                {
-                                    estaciones[i].setStatus(2);
-                                }
-                                else
-                                {
-                                    estaciones[i].setStatus(3);
-                                }
-                            }
-                        }
-                        file.Close();
-
+                    newLineas[cant2] = line; cant2++;
                 }
-                }
-                catch (Exception ex)
-                {
-
-                }                
-                Thread.Sleep(1500);
-            }*/
+                file0.Close();
+                String[] tipo;
+                tipo = newLineas[0].Split(';');
+                if (tipo[1]=="avion")
+                {estaciones[i].setStatus(0);}
+                if (tipo[1] == "carro")
+                { estaciones[i].setStatus(1); }
+                if (tipo[1] == "dinosaurio")
+                { estaciones[i].setStatus(2); }
+            }
         }
 
-        private void pruebaToolStripMenuItem_Click(object sender, EventArgs e)
+
+
+        private void verLecturasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Portales h = new Portales();
-            //h.Show();
+            portal h = new portal();
+            h.Show();
         }
     }
 }

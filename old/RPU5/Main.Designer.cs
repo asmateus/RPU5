@@ -208,6 +208,7 @@
             this.verLecturasToolStripMenuItem.Name = "verLecturasToolStripMenuItem";
             this.verLecturasToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.verLecturasToolStripMenuItem.Text = "Ver Lecturas";
+            this.verLecturasToolStripMenuItem.Click += new System.EventHandler(this.verLecturasToolStripMenuItem_Click);
             // 
             // ayudaToolStripMenuItem1
             // 
@@ -1173,7 +1174,6 @@
         private System.Windows.Forms.ToolStripStatusLabel connectionStatus;
         private System.Windows.Forms.ToolStripStatusLabel stationsStatus;
         private System.Windows.Forms.ToolStripStatusLabel processStatus;
-
     }
 }
 

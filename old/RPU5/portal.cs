@@ -11,10 +11,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
-namespace RPU5
+namespace portalesrcl
 {
-    public partial class Portales : Form
+    public partial class portal : Form
     {
+
         //Declaracion de Variables, Strings[]
         public static ImpinjReader reader = new ImpinjReader();
         public static string[] EpcLeidos = new string[135];
@@ -43,8 +44,8 @@ namespace RPU5
         public static int b = 0;
         public static int y2 = 0;
         public static string[,] fecha = new string[135, 2];
-        public static string[] prueba = new string[135];
-        public static string[] prueba4 = new string[135];
+        public static string[] portalesrcl = new string[135];
+        public static string[] portalesrcl4 = new string[135];
 
 
         // VARIABLES ESTACIONES
@@ -79,15 +80,16 @@ namespace RPU5
         public static string LabelLectores = null;
 
 
-        public Portales()
+        public portal()
         {
+
             InitializeComponent();
             timer1.Enabled = true;     //Habilita el Timer1 siempre al inicio  
             timer2.Enabled = true;
             ActualizarProductosPortales();
             // ESTACIONES 
 
-            ruta = @"\\USER\Users\Public\RFID\estaciones\texto\";
+            ruta = @"\\USER\Users\Public\RFID\estaciones\textos\";
 
 
             ActualizarProductos();
@@ -104,13 +106,12 @@ namespace RPU5
 
         //Crea una lista de los lectores a conectar
         static List<ImpinjReader> readers = new List<ImpinjReader>();
-
         private void btnStart_Click(object sender, EventArgs e)
         {
 
             try
             {
-                Console.WriteLine("ConectandoLectores..");
+                //Console.WriteLine("ConectandoLectores..");
 
                 readers.Add(new ImpinjReader("192.168.0.44", "Lector1")); //AQUI SE CAMBIA LA IP (192.168.1.42 o 192.168.1.44)
                 readers.Add(new ImpinjReader("192.168.0.42", "Lector2"));//Agrega lectores usando IP y se le da un nombre
@@ -125,7 +126,7 @@ namespace RPU5
 
                         //Conecta los lectores y configura caracteristicas internas como potencia, No. de , etc...
                         //Potencia
-                        Impinj.OctaneSdk.Settings settings = reader.QueryDefaultSettings();
+                        Settings settings = reader.QueryDefaultSettings();
                         settings.Report.IncludeFirstSeenTime = true;
                         settings.Report.IncludeLastSeenTime = true;
                         settings.Report.IncludeSeenCount = true;
@@ -170,294 +171,83 @@ namespace RPU5
             //Captura errores en el try y los muestra
             catch (OctaneSdkException ee)
             {
-                Console.WriteLine("{0}", ee.Message);
+                //Console.WriteLine("{0}", ee.Message);
             }
 
             catch (Exception ee)
             {
-                Console.WriteLine("{0}", ee.Message);
+               // Console.WriteLine("{0}", ee.Message);
             }
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+
+
         static void OnTagsReported(ImpinjReader sender, TagReport report)
         {
-            //Se llama para cada lector
 
             string[] DatosProductos2 = new string[3];
 
             foreach (Tag tag in report)
             {
-                if (sender.Name.ToString() == "Reader #1" || sender.Name.ToString() == "Reader #2")
-                {  // CODIGO ESTACIONES
+                epc = tag.Epc.ToString();
 
-                    Console.WriteLine("SI ENTRA EN LOS LECTORES ESTACIONES");
+               // Console.WriteLine(epc);
 
-                    epc = tag.Epc.ToString();
-                    if (sender.Name.ToString() == "Reader #1")
-                    { antena = tag.AntennaPortNumber.ToString(); }
-                    else if (sender.Name.ToString() == "Reader #2")
-                    { antena = Convert.ToString(tag.AntennaPortNumber + 4); }
-                    //Console.WriteLine("-------------------------------------------------------"); // SEGUIMIENTO
-                    //Console.WriteLine("EPC : {0} , Antenna : {1}", epc, antena);
-                    if (antena == "7")
-                    {
-                        Escribir_Ultima_Estacion();
-                    }
+                if (sender.Name.ToString() == "Reader #1")
+                { antena = tag.AntennaPortNumber.ToString(); }
+                else if (sender.Name.ToString() == "Reader #2")
+                { antena = Convert.ToString(tag.AntennaPortNumber + 4); }
+                //Console.WriteLine("-------------------------------------------------------"); // SEGUIMIENTO
+                //Console.WriteLine("EPC : {0} , Antenna : {1}", epc, antena);
+                if (antena == "7")
+                {
+                    Escribir_Ultima_Estacion();
+                }
 
-                    if (epc[0] == '2')
-                    {
-                        AutorizarOperarios();
-                    }
-                    else
-                    {
-                        EtiquetaAgain();
-                        //Console.WriteLine( "---------------------" ); // SEGUIMIENTO
-                        //Console.WriteLine( "ETIQUETA AGAIN?  : " + TagAgain ); // SEGUIMIENTO
-                        if (TagAgain == "no")
-                        {
-                            Verificar_Viene_Estacion_Anterior(); // Verifica si el producto nuevo es de reingreso o de la estacion anterior
-                            //Console.WriteLine( "---------------------" ); // SEGUIMIENTO
-                            //Console.WriteLine( "VIENE DE LA ESTACION ANTERIOR?  : " + Viene_Estacion_Anterior ); // SEGUIMIENTO
-                            if (Viene_Estacion_Anterior == "no")
-                            {
-                                Verificar_Reingreso();
-                                //Console.WriteLine( "---------------------" ); // SEGUIMIENTO
-                                //Console.WriteLine( "ES UN REINGRESO MALO?  : " + ReingresoMalo ); // SEGUIMIENTO
-                            }
-                            EscribirEstacionActual();
-                            BorrarEpc();
-                        }
-                    }
-
+                if (epc[0] == '0')
+                {
+                    AutorizarOperarios();
                 }
                 else
-                { // CODIGO PORTALES
-                    Console.WriteLine(sender.Name.ToString());
-                    string nombre_lector = sender.Name;
-                    //Console.WriteLine( nombre_lector );
-
-                    if (nombre_lector == "Lector1") //Si los reportes vienen del Lector 1 se ejecuta
+                {
+                    EtiquetaAgain();
+                    //Console.WriteLine( "---------------------" ); // SEGUIMIENTO
+                    //Console.WriteLine( "ETIQUETA AGAIN?  : " + TagAgain ); // SEGUIMIENTO
+                    if (TagAgain == "no")
                     {
-                        //Console.WriteLine( "EPC : {0} " , tag.Epc );
+                        Verificar_Viene_Estacion_Anterior(); // Verifica si el producto nuevo es de reingreso o de la estacion anterior
+                                                             //Console.WriteLine( "---------------------" ); // SEGUIMIENTO
+                                                             // Console.WriteLine( "VIENE DE LA ESTACION ANTERIOR?  : " + Viene_Estacion_Anterior ); // SEGUIMIENTO
 
-                        string lines = tag.Epc.ToString(); //EPC
-                        string yaleido = "na"; //Por definicion es no autorizado
-                        string a = "no";
-
-
-                        for (int j = 0; j <= 134; j++) //Compara si el epc leido ya se leyo dentro de los autorizados
+                        if (Viene_Estacion_Anterior == "no")
                         {
-                            if (lines == EpcLeidos2[j])
-                            {
-                                yaleido = "si";
-                            }
+                            Verificar_Reingreso();
+                            //Console.WriteLine( "---------------------" ); // SEGUIMIENTO
+                            //Console.WriteLine( "ES UN REINGRESO MALO?  : " + ReingresoMalo ); // SEGUIMIENTO
                         }
-
-
-                        for (int j = 0; j <= 134; j++)
-                        {
-                            if (lines == EpcLeidos3[j])
-                            {
-                                yaleido = "si";
-                            }
-
-                        }
-
-                        //Comprueba si la epc esta dentro de los productos Autorizados o si es un producto No Autorizado
-                        if (yaleido == "na")
-                        {
-                            for (int l = 0; l <= 104; l++)
-                            {
-                                a = "no";
-                                DatosProductos2 = Productos[l].Split(';');
-                                if (DatosProductos2[0] == lines)
-                                {
-                                    yaleido = "no";
-                                    l = 200;
-                                }
-                            }
-
-                            string[] datosxx = new string[4];
-
-                            for (int na = 0; na <= 104; na++)
-                            {
-                                //Console.WriteLine( "prod: " + Productos[ na ] );
-
-                                datosxx = Productos[na].Split(';');
-                                if (datosxx[0] == lines)
-                                {
-                                    a = "si";
-                                }
-                            }
-
-                            //Comprueba si el epc no autorizado la los escribio para no repetirlo
-                            string repetido = "no";
-                            if (a == "no")
-                            {
-                                for (int bv = 0; bv <= 99; bv++)
-                                {
-                                    if (EpcLeidosNoAutorizados[bv] == lines)
-                                    {
-                                        repetido = "si";
-                                        break;
-                                    }
-
-                                }
-
-                                if (repetido == "no")
-                                {
-                                    EpcLeidosNoAutorizados[y] = lines;
-                                    y++;
-                                    yaleido = "na";
-                                }
-                            }
-                        }
-
-                        //Se determino que el epc es autorizado y que no se ha escrito
-                        if (yaleido == "no")
-                        {
-                            for (int l = 0; l <= 200; l++)
-                            {
-                                try
-                                {
-                                    DatosProductos2 = Productos[l].Split(';');
-                                    if (DatosProductos2[0] == lines)
-                                    {
-                                        EpcLeidos[i] = DatosProductos2[0]; //Guarda el epc en un string[] que a la vez llena el textBox1 con EPC y Fecha;Hora
-                                        EpcLeidos2[i] = lines;
-                                        string prueba2 = EpcLeidos[i];
-                                        prueba[i] = prueba2 + "     " + DateTime.Now.ToString("dd/MM/dddd;hh:mm:ss");
-                                        break;
-                                    }
-                                }
-                                catch
-                                {
-
-                                }
-
-                            }
-                            i = i + 1;
-                        }
-
+                        EscribirEstacionActual();
+                        BorrarEpc();
                     }
-
-                    //Se pregunta si el reporte viene del Lector 2(Salidaportal)
-                    if (nombre_lector == "Lector2")
-                    {
-                        //Console.WriteLine( "EPC : {0} " , tag.Epc );
-
-                        string lines = tag.Epc.ToString();
-                        string yaleido = "na";
-                        string a = "no";
-
-                        //Comprueba si ya se escribio el EPC
-                        for (int j = 0; j <= 134; j++)
-                        {
-                            if (lines == EpcLeidos22[j])
-                            {
-                                yaleido = "si";
-                            }
-                        }
-
-                        for (int j = 0; j <= 134; j++)
-                        {
-                            if (lines == EpcLeidos32[j])
-                            {
-                                yaleido = "si";
-                            }
-                        }
-
-
-                        if (yaleido == "na")
-                        {
-                            for (int l = 0; l <= 99; l++) //Verifica si el epc reportado se encuentra en la lista de Productos Finalizados autorizados a salir
-                            {
-                                a = "no";
-                                DatosProductos2 = Productos2[l].Split(';');
-                                if (DatosProductos2[0] == lines)
-                                {
-                                    yaleido = "no";
-                                    l = 200;
-
-                                }
-
-
-
-                            }
-                            string[] datosxx = new string[4];
-
-                            for (int na = 0; na <= 104; na++)
-                            {
-                                //Console.WriteLine( "prod: " + Productos2[ na ] );
-
-                                datosxx = Productos2[na].Split(';');
-                                if (datosxx[0] == lines)
-                                {
-                                    a = "si";
-                                }
-                            }
-
-                            string repetido = "no";
-                            if (a == "no")
-                            {
-                                for (int bv = 0; bv <= 99; bv++) //Comprueba si esta escrito en lista de no autorizados
-                                {
-                                    if (EpcLeidosNoAutorizados2[bv] == lines)
-                                    {
-                                        repetido = "si";
-                                        break;
-                                    }
-
-                                }
-                                if (repetido == "no") //Escribe el Epc si es no autorizado y no se ha escrito
-                                {
-                                    EpcLeidosNoAutorizados2[y2] = lines;
-                                    y2++;//Guarda un contador de los no autorizados
-                                    yaleido = "na";
-
-
-                                }
-                            }
-                        }
-
-                        if (yaleido == "no")//Verifica que este en la lista de productos autorizados a salir
-                        {
-                            for (int l = 0; l <= 200; l++)
-                            {
-                                try
-                                {
-                                    DatosProductos2 = Productos2[l].Split(';'); //Se usa para colocar un nombre a un epc especifico(Definido por base de datos)
-                                    if (DatosProductos2[0] == lines)
-                                    {
-                                        EpcLeidos22[b] = lines; //Escribe el epc autorizado para salir y lo guarda para comprobar si se repite futuramente
-                                        EpcLeidos32[b] = lines;
-                                        string prueba3 = EpcLeidos32[b];
-                                        prueba4[b] = prueba3 + "     " + DateTime.Now.ToString("dd/MM/dddd;hh:mm:ss"); //Se utiliza para asociar a un EPC o producto especifico una fecha y hora de salida
-                                        break;
-                                    }
-                                }
-                                catch
-                                {
-
-                                }
-
-                            }
-                            b = b + 1; //Este es el contador de EPC autorizados que salieron
-                        }
-
-                    }
-
                 }
-
             }
 
+
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+
+
 
         private void timer1_Tick(object sender, EventArgs e)
         {
 
         }
-
         private void botonstop_Click(object sender, EventArgs e)
         {
             foreach (ImpinjReader reader in readers)
@@ -473,26 +263,23 @@ namespace RPU5
             }
             label13.Text = "Lectores Portal Desconectados";
         }
-
         private void timer1_Tick_1(object sender, EventArgs e)
         {
             //Asigna inicialmente los valores que va a tomar cada componente en la interfaz cuando cambie
-            textBox1.Lines = prueba;
+            textBox1.Lines = portalesrcl;
             advertencia.Lines = EpcLeidosNoAutorizados;
             textBox2.Lines = EpcLeidosNoAutorizadosSalida;
             cantidad.Text = i.ToString();
             totalna.Text = y.ToString();
             textBox2.Lines = EpcLeidosNoAutorizados2;
             label5.Text = b.ToString();
-            textBox3.Lines = prueba4;
+            textBox3.Lines = portalesrcl4;
             totalna2.Text = y2.ToString();
         }
-
         private void actualizate_Click(object sender, EventArgs e)
         {
             ActualizarProductosPortales();
         }
-
         static void ActualizarProductosPortales()
         {
             //Lee un archivo que viene de base de datos con productos autorizados a entrada y salida
@@ -532,6 +319,7 @@ namespace RPU5
             //Lee los archivos linea a linea y los guarda en vectores (Productos[] y Productos2[])
             int k = 0;
             while (!productosbase.EndOfStream)
+
             {
                 Productos[k] = productosbase.ReadLine();
                 k = k + 1;
@@ -544,14 +332,10 @@ namespace RPU5
                 k2 = k2 + 1;
             }
         }
-
-
-
         private void advertencia_TextChanged(object sender, EventArgs e)
         {
 
         }
-
         private void limpia_Click(object sender, EventArgs e)
         {
             //asigna nuevamente strings[] en blanco para limpiar valores
@@ -563,13 +347,11 @@ namespace RPU5
             i = 0;//Contadores en cero
             y = 0;
         }
-
         private void cantidad_Click(object sender, EventArgs e)
         {
 
         }
-
-        private void Form1_Load(object sender, EventArgs e)
+        private void portal_Load(object sender, EventArgs e)
         {
 
         }
@@ -627,6 +409,7 @@ namespace RPU5
             }
             int k = 0;
             while (!productosbasesalida.EndOfStream)
+
             {
                 Productos2[k] = productosbasesalida.ReadLine();
                 k = k + 1;
@@ -732,14 +515,14 @@ namespace RPU5
             if (ReingresoMalo == "si")
             {
                 GuardarReingreso();
-                Console.WriteLine("SI ENTRA AQUIIIII Y LA ESTACION SALIENTE ES: " + EstacionSaliente); // SEGUIMIENTO 
+                //Console.WriteLine( "SI ENTRA AQUI Y LA ESTACION SALIENTE ES: " + EstacionSaliente ); // SEGUIMIENTO 
                 for (int i = 1; i <= 10; i++)
                 {
                     DatosActualizar = LineasEstaciones[Convert.ToUInt16(EstacionSaliente), i].Split(';');
                     // [0]=epc    |     [1]=tipo(carro,etc)     |     [2]=prioridad     |     [3]=Segundos de la hora de ingreso
                     if (DatosActualizar[0] == epc)
                     {
-                        Console.WriteLine("SI ENTRO A ACTUALIZAR LOS DATOSSSS");
+                        //Console.WriteLine( "SI ENTRO A ACTUALIZAR LOS DATOSSSS" );
                         DatosProductos[0] = DatosActualizar[0];
                         DatosProductos[1] = DatosActualizar[1];
                         //Viene_Estacion_Anterior = "si";
@@ -788,6 +571,11 @@ namespace RPU5
             Escribir_Txt_Estaciones(Convert.ToUInt16(antena));
 
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+
         static void Verificar_Viene_Estacion_Anterior() // VERIFICA SI EL EPC LEIDO VIENE DE LA ESTACION ANTERIOR
         {
             //Console.WriteLine( "ENTRA A VERIFICAR VIENE ESTACION ANTERIOR" ); // SEGUIMIENTO 
@@ -813,12 +601,15 @@ namespace RPU5
             }
             else // ANTENA = 1
             {
+                //Console.WriteLine( "si entra antenaaaaaaa=1" );
+                //Console.WriteLine( "Contador: " + CantidadProductos );
                 for (int i = 1; i <= CantidadProductos; i++)
                 {
                     DatosProductos = ListaProductos[i].Split(';'); //   [0]=epc       [1]=tipo( carro, etc)  [2]=Si ha sido leido
-
+                    //Console.WriteLine("epc producto: " + DatosProductos[ 0 ] + "  producto: " + DatosProductos[ 1 ] + " leido: " + DatosProductos[ 2 ] );
                     if (DatosProductos[0] == epc)
                     {
+                        //Console.WriteLine( "si son iguales: " + DatosProductos[2] );
                         if (DatosProductos[2] == "noleido")
                         {
                             ListaProductos[i] = DatosProductos[0] + ';' + DatosProductos[1] + ';' + "sileido";
@@ -929,7 +720,7 @@ namespace RPU5
             }
 
 
-            Console.WriteLine("El epc: " + epc + ", Entro a la estacion : " + antena + ", Proveniente de la estacion: " + EstacionSaliente); // SEGUIMIENTO
+            // Console.WriteLine( "El epc: " + epc + ", Entro a la estacion : " + antena + ", Proveniente de la estacion: " + EstacionSaliente ); // SEGUIMIENTO
 
             //Console.WriteLine( "SALE GUARDAR REINGRESO" ); // SEGUIMIENTO
 
@@ -1015,7 +806,6 @@ namespace RPU5
 
                     if (DatosBorrarEpc[0] == epc)
                     {
-                        //Console.WriteLine( "si entra en esta verga" );
                         //Console.WriteLine( "lo que se borrará sera: " + LineasEstaciones[Antena_Borrar,i] );
 
 
@@ -1203,7 +993,7 @@ namespace RPU5
         }
         static void Inicializar()// INICIALIZA TODOS LOS TXT EN BLANCO 
         {
-
+            //Console.WriteLine( "si entra" );
             string strest = "nada;nada;nada";
 
 
@@ -1248,7 +1038,6 @@ namespace RPU5
                 OperariosAutorizados[i] = "nada";
             }
 
-
             while (true)
             {
                 try
@@ -1263,7 +1052,6 @@ namespace RPU5
                 }
                 catch { }
             }
-
 
             while (true)
             {
@@ -1376,7 +1164,7 @@ namespace RPU5
                 catch { }
             }
 
-
+            //Console.WriteLine( "si entra" );
         }
         static void ConfigurarLectores()// CONFIGURA LOS LECTORES E INICIA LAS LECTURAS 
         {
@@ -1386,61 +1174,53 @@ namespace RPU5
             {
                 readers.Add(new ImpinjReader("192.168.0.20", "Reader #1"));
                 readers.Add(new ImpinjReader("192.168.0.13", "Reader #2"));
-
                 foreach (ImpinjReader reader in readers)
                 {
-                    if (reader.Name.ToString() == "Reader #1" || reader.Name.ToString() == "Reader #2")
+                    reader.Connect();
+                    Impinj.OctaneSdk.Settings settings = reader.QueryDefaultSettings();
+                    settings.Report.IncludeAntennaPortNumber = true;
+                    settings.ReaderMode = ReaderMode.AutoSetDenseReader;
+                    settings.SearchMode = SearchMode.DualTarget;
+                    settings.Session = 2;
+                    settings.Antennas.DisableAll();
+
+                    settings.Antennas.GetAntenna(1).IsEnabled = true;
+                    settings.Antennas.GetAntenna(2).IsEnabled = true;
+                    settings.Antennas.GetAntenna(3).IsEnabled = true;
+
+                    settings.Antennas.GetAntenna(1).TxPowerInDbm = 12;
+                    settings.Antennas.GetAntenna(2).TxPowerInDbm = 12;
+                    settings.Antennas.GetAntenna(3).TxPowerInDbm = 12;
+
+                    settings.Antennas.GetAntenna(1).MaxRxSensitivity = true;
+                    settings.Antennas.GetAntenna(2).MaxRxSensitivity = true;
+                    settings.Antennas.GetAntenna(3).MaxRxSensitivity = true;
+
+                    if (reader.Name.ToString() == "Reader #1")
                     {
-                        reader.Connect();
-                        Impinj.OctaneSdk.Settings settings = reader.QueryDefaultSettings();
-                        settings.Report.IncludeAntennaPortNumber = true;
-                        settings.ReaderMode = ReaderMode.AutoSetDenseReader;
-                        settings.SearchMode = SearchMode.DualTarget;
-                        settings.Session = 2;
-                        settings.Antennas.DisableAll();
-
-                        settings.Antennas.GetAntenna(1).IsEnabled = true;
-                        settings.Antennas.GetAntenna(2).IsEnabled = true;
-                        settings.Antennas.GetAntenna(3).IsEnabled = true;
-
-                        settings.Antennas.GetAntenna(1).TxPowerInDbm = 12;
-                        settings.Antennas.GetAntenna(2).TxPowerInDbm = 12;
-                        settings.Antennas.GetAntenna(3).TxPowerInDbm = 12;
-
-                        settings.Antennas.GetAntenna(1).MaxRxSensitivity = true;
-                        settings.Antennas.GetAntenna(2).MaxRxSensitivity = true;
-                        settings.Antennas.GetAntenna(3).MaxRxSensitivity = true;
-
-                        if (reader.Name.ToString() == "Reader #1")
-                        {
-                            settings.Antennas.GetAntenna(4).IsEnabled = true;
-                            settings.Antennas.GetAntenna(4).TxPowerInDbm = 12;
-                            settings.Antennas.GetAntenna(4).MaxRxSensitivity = true;
-                        }
-                        // Send a tag report every time the reader stops (period is over).
-                        settings.Report.Mode = ReportMode.BatchAfterStop;
-                        settings.AutoStart.Mode = AutoStartMode.Periodic;
-                        settings.AutoStart.PeriodInMs = 500; //  CADA 10...150
-                        settings.AutoStop.Mode = AutoStopMode.Duration;
-                        settings.AutoStop.DurationInMs = 500; // 5 SEG.....250
-
-                        reader.ApplySettings(settings);
-
-
-                        reader.TagsReported += OnTagsReported;
-
-                        reader.Start();
+                        settings.Antennas.GetAntenna(4).IsEnabled = true;
+                        settings.Antennas.GetAntenna(4).TxPowerInDbm = 12;
+                        settings.Antennas.GetAntenna(4).MaxRxSensitivity = true;
                     }
+                    // Send a tag report every time the reader stops (period is over).
+                    settings.Report.Mode = ReportMode.BatchAfterStop;
+                    settings.AutoStart.Mode = AutoStartMode.Periodic;
+                    settings.AutoStart.PeriodInMs = 400; //  CADA 10...150
+                    settings.AutoStop.Mode = AutoStopMode.Duration;
+                    settings.AutoStop.DurationInMs = 400; // 5 SEG.....250
+
+                    reader.ApplySettings(settings);
+
+
+                    reader.TagsReported += OnTagsReported;
+
+                    reader.Start();
 
                 }
-                LabelLectores = "Lectores Estaciones Conectados";
-
-                //label15.Text = "Lectores Estaciones Conectados";
-                //Console.WriteLine( "Lectores Conectados..." );
             }
-            catch (OctaneSdkException e) { Console.WriteLine("Octane SDK exception: {0}", e.Message); LabelLectores = "Lectores Estaciones Error"; }
-            catch (Exception e) { Console.WriteLine("Exception : {0}", e.Message); LabelLectores = "Lectores Estaciones Error"; }
-
+            catch (OctaneSdkException e) { Console.WriteLine("Octane SDK exception: {0}", e.Message); }
+            catch (Exception e) { Console.WriteLine("Exception : {0}", e.Message); }
+            Console.WriteLine("LECTORES CONECTADOS");
         }
         static void DetenerLectores()// DETIENE LA LECTURA Y DESCONECTA LOS LECTORES 
         {
@@ -1455,7 +1235,7 @@ namespace RPU5
                     }
                     catch { Console.WriteLine("No se pueden detener los lectores"); }
                 }
-                LabelLectores = "Lectores Estaciones Desconectados";
+
             }
         }
         static void AutorizarOperarios()// AUTORIZA EL OPERARIO EN LA ESTACION 
@@ -1468,7 +1248,7 @@ namespace RPU5
             string[] Datosoperario = new string[3];
 
             string rutaopeesta = ruta + "operariosestaciones.txt";
-            string rutaopebase = Main.recursos + "operariosbase.txt";
+            string rutaopebase = ruta + "operariosbase.txt";
             string autorizado = null;
 
             while (true)
@@ -1521,8 +1301,7 @@ namespace RPU5
             }
             operariosbasee.Close();
 
-            LineasOperariosestaciones[Convert.ToUInt16(antena)] = autorizado + ";" + Datosoperario2[2] + ";" + Datosoperario2[0];
-
+            LineasOperariosestaciones[Convert.ToUInt16(antena)] = autorizado + ";" + Datosoperario2[2] + ";" + Datosoperario2[3];
             while (true)
             {
                 try
@@ -1595,6 +1374,12 @@ namespace RPU5
 
             //Console.WriteLine( "SALE A ETIQUETA AGAIN" ); // SEGUIMIENTO 
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+
+
         private void timer2_Tick(object sender, EventArgs e)
         {
             {
@@ -1626,7 +1411,7 @@ namespace RPU5
 
                             Console.WriteLine("resta de segundos: " + Resta_Segundos);
                         }
-                        if (Resta_Segundos >= 5)
+                        if (Resta_Segundos >= 2)
                         {
                             Console.WriteLine("SALIO DE LA ESTACION 7 EL EPC:  " + epc + "----------------------------");
                             BorrarEpc_Ultima_Estacion(Datos_Ultima_estacion[0]);
@@ -1650,18 +1435,25 @@ namespace RPU5
         {
 
         }
-
         private void startestaciones_Click(object sender, EventArgs e)
         {
             ConfigurarLectores();
             label15.Text = LabelLectores;
         }
-
         private void stopestaciones_Click(object sender, EventArgs e)
         {
             DetenerLectores();
             label15.Text = LabelLectores;
         }
+        private void signoutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            login log = new login();
+            log.ShowDialog();
+        }
+        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
-

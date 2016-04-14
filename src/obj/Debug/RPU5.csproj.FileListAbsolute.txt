@@ -1,0 +1,9 @@
+C:\Users\Administrador\Desktop\base_de_datos\RPU5\src\RPU5\bin\Debug\RPU5.exe.config
+C:\Users\Administrador\Desktop\base_de_datos\RPU5\src\bin\Debug\RPU5.exe.config
+C:\Users\Administrador\Desktop\base_de_datos\RPU5\src\bin\Debug\RPU5.exe
+C:\Users\Administrador\Desktop\base_de_datos\RPU5\src\bin\Debug\RPU5.pdb
+C:\Users\Administrador\Desktop\base_de_datos\RPU5\src\obj\Debug\RPU5.csprojResolveAssemblyReference.cache
+C:\Users\Administrador\Desktop\base_de_datos\RPU5\src\obj\Debug\RPU5.Properties.Resources.resources
+C:\Users\Administrador\Desktop\base_de_datos\RPU5\src\obj\Debug\RPU5.csproj.GenerateResource.Cache
+C:\Users\Administrador\Desktop\base_de_datos\RPU5\src\obj\Debug\RPU5.exe
+C:\Users\Administrador\Desktop\base_de_datos\RPU5\src\obj\Debug\RPU5.pdb

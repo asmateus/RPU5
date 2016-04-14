@@ -96,10 +96,6 @@ namespace RPU5
         {
             try
             {
-				string[] hello = {"a", "b", "c"};
-				string[] h;
-				h = hello;
-				Console.Write(h[0]);
                 string sourceFile = destino + aRecibir;
                 string destFile = recursos + aRecibir;
                 System.IO.File.Copy(sourceFile, destFile, true);
@@ -125,5 +121,47 @@ namespace RPU5
         {
             return this.cantidad;
         }
-    }
+
+        public string led(int i, Boolean[] c, String recursos)
+        {
+            try
+            {
+                String ruta;
+                if (c[i])
+                {
+                    return ruta = recursos + "/Connected.png";                   
+                }
+                else
+                {
+                    return ruta = recursos + "/Disconnected.png";
+                }
+                
+            }
+            catch (Exception e)
+            {
+                return "Error"; //hacer la box de mensaje
+            }
+        }
+
+        
+        public string rellenarIma(int i, int[] e, String recursos)
+        {
+            String ruta;
+            try
+            {
+                switch (e[i])
+                {
+                    case 0: { return ruta = recursos + "/Avion.jpg"; }
+                    case 1: { return ruta = recursos + "/Carro.jpg"; }
+                    case 2: { return ruta = recursos + "/Dinosaurio.jpg"; }
+                    case 3: { return ruta = recursos + "/Clock.png"; }
+                    case 4: { return ruta = recursos + "/Ready.png"; }
+                    default: { return ruta = recursos + "/Error.jpg"; }
+                }
+            }
+            catch { return "Error"; }
+
+          } //termina rellenar imagenes de los productos
+        }
+        
 }
