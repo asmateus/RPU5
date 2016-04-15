@@ -10,18 +10,27 @@
  */
 
 using System.Windows.Forms;
+using System.Threading;
 
 namespace RPU5
 {
     public partial class Main : Form
     {
+
+        private Connection connection;
+        private Status status_thread;
+
         public Main()
         {
             // Esta función inicializa la interfaz gráfica y todos los elementos asociados
             InitializeComponent();
 
             // Intentar establecer conexiones necesarias
+            connection = new Connection("localhost", 3302);
 
+            status_thread = new Status(connection);
+            status_thread.Start();
+            
         }
     }
 }

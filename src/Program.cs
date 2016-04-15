@@ -8,9 +8,9 @@ namespace RPU5
 {
     static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
+        // 
+        // Punto de entrada a la aplicación
+        // 
         [STAThread]
         static void Main()
         {
