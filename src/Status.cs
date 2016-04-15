@@ -31,11 +31,11 @@ namespace RPU5
                 // Verificar conexiones
                 if (conn.status() == false)
                 {
-                    Console.Write("NOT CONNECTED\n");
+                    //Console.Write("NOT CONNECTED\n");
                 }
                 else
                 {
-                    Console.Write("CONNECTED\n");
+                    //Console.Write("CONNECTED\n");
                 }
             }
         }

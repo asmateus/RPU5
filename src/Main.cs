@@ -26,7 +26,7 @@ namespace RPU5
             InitializeComponent();
 
             // Intentar establecer conexiones necesarias
-            connection = new Connection("localhost", 3302);
+            connection = new Connection("127.0.0.1", 3306);
 
             status_thread = new Status(connection);
             status_thread.Start();
