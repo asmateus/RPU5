@@ -7,3 +7,4 @@ C:\Users\Administrador\Desktop\base_de_datos\RPU5\src\obj\Debug\RPU5.Properties.
 C:\Users\Administrador\Desktop\base_de_datos\RPU5\src\obj\Debug\RPU5.csproj.GenerateResource.Cache
 C:\Users\Administrador\Desktop\base_de_datos\RPU5\src\obj\Debug\RPU5.exe
 C:\Users\Administrador\Desktop\base_de_datos\RPU5\src\obj\Debug\RPU5.pdb
+C:\Users\Administrador\Desktop\base_de_datos\RPU5\src\bin\Debug\MySql.Data.dll

@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using MySql.Data.MySqlClient;
+//using System.Data.SqlClient;
 using System.Data;
 using System;
 
@@ -10,24 +11,22 @@ namespace RPU5
     {
         public Connection(string IP, int port) {
 
-            string connectionString = "Data Source=" + IP + ",3306" + ";Initial Catalog=testing;" +
-                                      "User ID=picking; Password=FSN5hrUD8UFVAU8z";
-            string sql_petition = "INSERT INTO tabla_1 Data (nombre, edad, sexo) VALUES (@nombre, @edad, @sexo)";
+            string connectionString = "Server=" + IP + ";Port=" + port + ";Database=testing;" +
+                                      "Uid=picking; Pwd=FSN5hrUD8UFVAU8z;";
+            string sql_petition = "INSERT INTO tabla_1 (nombre, edad, sexo) VALUES ('Juanito', '23', 'M')";
+            MySqlConnection conn = new MySqlConnection(connectionString);
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = sql_petition;
 
-            SqlConnection connection = new SqlConnection(connectionString);
-            SqlCommand cmd = new SqlCommand(sql_petition);
-            cmd.CommandType = CommandType.Text;
-            cmd.Connection = connection;
-            cmd.Parameters.AddWithValue("@nombre", "Osamu");
-            cmd.Parameters.AddWithValue("@edad", "23");
-            cmd.Parameters.AddWithValue("@sexo", "M");
             try
             {
-                Console.Write("\n TRY CONNECTION\n");
-                connection.Open();
+                conn.Open();
                 cmd.ExecuteNonQuery();
+                conn.Close();
             }
-            catch (Exception ex) { Console.Write(ex + "\n CONNECTION FAILED.\n"); }
+            catch (Exception ex) {
+                Console.Write("CONNECTION FAILED");
+            }
         }
 
         public bool status() {
