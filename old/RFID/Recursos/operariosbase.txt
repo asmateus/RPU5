@@ -1,5 +1,0 @@
-Garcia;2;Hector;200047275000
-Puma;3;Jose;200045121000
-Romero;4;Rainer;200048563000
-Castaño;6;Diego;200034004000
-Guerra;7;Manuel;200047514000
