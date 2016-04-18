@@ -1,5 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
-//using System.Data.SqlClient;
+using System.Collection.Generic;
 using System.Data;
 using System;
 
@@ -9,24 +9,57 @@ namespace RPU5
 {
     class Connection
     {
-        public Connection(string IP, int port) {
+        public Connection(string IP) {
 
-            string connectionString = "Server=" + IP + ";Port=" + port + ";Database=testing;" +
+            string connectionString = "Server=" + IP + ";Port=" + "3306" + ";Database=testing;" +
                                       "Uid=picking; Pwd=FSN5hrUD8UFVAU8z;";
-            string sql_petition = "INSERT INTO tabla_1 (nombre, edad, sexo) VALUES ('Juanito', '23', 'M')";
-            MySqlConnection conn = new MySqlConnection(connectionString);
-            MySqlCommand cmd = conn.CreateCommand();
-            cmd.CommandText = sql_petition;
 
             try
             {
                 conn.Open();
-                cmd.ExecuteNonQuery();
                 conn.Close();
             }
             catch (Exception ex) {
                 Console.Write("CONNECTION FAILED");
             }
+        }
+
+        public void push(string table, Dictionary<string, string> info) {
+
+            // Construir string de peticion
+            string petition = "INSERT INTO " + table + " ";
+
+            string fields = string.Join(",", info.Keys);
+            string values = string.Join(",", info.Values);
+
+            petition += "(" + fields + ")" + " VALUES " + "(" + values + ")";
+
+            // Ejecutar comando
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = petition;
+            cmd.ExecuteNonQuery();
+        }
+
+        public DataRow pull(string table, string where_condition) {
+            string petition = "SELECT * FROM " + table + " WHERE " + where_condition;
+            try {
+                MySqlDataAdapter da = new MySqlDataAdapter(petition, this.conn);
+                DataSet ds = new DataSet();
+                da.Fill(ds, table);
+                DataTable dt = ds.Tables[table];
+                return dt.Rows[0];
+            }
+            catch (Exception ex) {
+                Console.Write("ELEMENT NOT FOUND");
+            }
+            return null;
+        }
+
+        public void update(string table, string field, string replace_condition) {
+            string petition = "UPDATE " + table + " SET " + field + " WHERE " + replace_condition;
+            MySqlCommand cmd = conn.CreateCommand();
+            cmd.CommandText = petition;
+            cmd.ExecuteNonQuery();
         }
 
         public bool status() {
