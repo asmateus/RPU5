@@ -1,5 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
-using System.Collection.Generic;
+using System.Collections.Generic;
 using System.Data;
 using System;
 
@@ -9,14 +9,23 @@ namespace RPU5
 {
     class Connection
     {
+        MySqlConnection conn;
         public Connection(string IP) {
 
-            string connectionString = "Server=" + IP + ";Port=" + "3306" + ";Database=testing;" +
-                                      "Uid=picking; Pwd=FSN5hrUD8UFVAU8z;";
+            string connectionString = "Server=" + IP + ";Port=" + "3306" + ";Database=rpu5;" +
+                                      "Uid=picking; Pwd=pIcKiNg;";
 
             try
             {
+                conn = new MySqlConnection();
                 conn.Open();
+                Dictionary<string, string> temp = new Dictionary();
+                temp.Add("nombre", "Shinobu");
+                temp.Add("edad", "587");
+                temp.Add("sexo", "F");
+                push("test", temp);
+                DataRow data = pull("test", "nombre=German");
+                update("test", "nombre=Shinobu", "nombre=German");
                 conn.Close();
             }
             catch (Exception ex) {
