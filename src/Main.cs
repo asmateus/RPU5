@@ -28,6 +28,7 @@ namespace RPU5
             // Intentar establecer conexiones necesarias
             connection = new Connection("127.0.0.1", 3306);
 
+            // Este hilo es opcional, lo que hace es probar, periódicamente si la conexión es funciona
             status_thread = new Status(connection);
             status_thread.Start();
             
