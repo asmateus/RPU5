@@ -10,58 +10,67 @@ namespace RPU5
     class Connection
     {
         MySqlConnection conn;
-        public Connection(string IP) {
+        public Connection(string IP, int port) {
 
-            string connectionString = "Server=" + IP + ";Port=" + "3306" + ";Database=rpu5;" +
-                                      "Uid=picking; Pwd=pIcKiNg;";
+            string connectionString = "Server=" + IP + ";Port=" + port + ";Database=rpu5;" +
+                                      "Uid=picking; Pwd=PiCkInG;";
+            
 
-            try
-            {
-                conn = new MySqlConnection();
+            //try
+           // {
+                conn = new MySqlConnection(connectionString);
                 conn.Open();
-                Dictionary<string, string> temp = new Dictionary();
+                Dictionary<string, string> temp = new Dictionary<string, string> ();
                 temp.Add("nombre", "Shinobu");
-                temp.Add("edad", "587");
+                temp.Add("edad", "51");
                 temp.Add("sexo", "F");
-                push("test", temp);
-                DataRow data = pull("test", "nombre=German");
-                update("test", "nombre=Shinobu", "nombre=German");
+                //push("test", temp);
+                pull("test", "nombre='simancarts'");
+                //update("test", "nombre='Shinobu'", "nombre='German'");
                 conn.Close();
-            }
-            catch (Exception ex) {
-                Console.Write("CONNECTION FAILED");
-            }
+           // }
+            //catch (Exception ex) {
+                //Console.Write("CONNECTION FAILED");
+            //}
         }
 
         public void push(string table, Dictionary<string, string> info) {
 
             // Construir string de peticion
             string petition = "INSERT INTO " + table + " ";
-
+            List<string> keys = new List<string>(info.Keys);
+            foreach(string key in keys)
+            {
+                info[key] = "'" + info[key] + "'"; 
+            }
             string fields = string.Join(",", info.Keys);
             string values = string.Join(",", info.Values);
 
             petition += "(" + fields + ")" + " VALUES " + "(" + values + ")";
-
             // Ejecutar comando
             MySqlCommand cmd = conn.CreateCommand();
             cmd.CommandText = petition;
             cmd.ExecuteNonQuery();
         }
 
-        public DataRow pull(string table, string where_condition) {
+        public void pull(string table, string where_condition) {
             string petition = "SELECT * FROM " + table + " WHERE " + where_condition;
+
             try {
-                MySqlDataAdapter da = new MySqlDataAdapter(petition, this.conn);
-                DataSet ds = new DataSet();
-                da.Fill(ds, table);
-                DataTable dt = ds.Tables[table];
-                return dt.Rows[0];
+                MySqlCommand cmd = new MySqlCommand(petition, this.conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                List<string> data = new List<string>(); int i = 0;
+                while (reader.Read()) {
+                    data.Add(reader.GetString(i));
+                    ++i;
+                }
+                Console.Write(data[0] + " " +  data[1]);
             }
             catch (Exception ex) {
                 Console.Write("ELEMENT NOT FOUND");
             }
-            return null;
+
+            //return null;
         }
 
         public void update(string table, string field, string replace_condition) {
