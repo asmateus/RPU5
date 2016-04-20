@@ -22,18 +22,18 @@ namespace RPU5
             this.connection_string = "Server=" + IP + ";Port=" + port + ";";
         }
 
+        public void Refactor(string database, string user, string pwd)
+                {
+                    this.database = database;
+                    this.pwd = pwd;
+                    this.user = user;
+                }
+
         public void Open(string database, string user, string pwd)
         {
             Refactor(database, user, pwd);
 
             Open();
-        }
-
-        public void Refactor(string database, string user, string pwd)
-        {
-            this.database = database;
-            this.pwd = pwd;
-            this.user = user;
         }
 
         public void Open()
@@ -78,24 +78,24 @@ namespace RPU5
             cmd.ExecuteNonQuery();
         }
 
-        public void pull(string table, string where_condition)
+        public List<string> pull(string table, string where_condition)
         {
             string petition = "SELECT * FROM " + table + " WHERE " + where_condition;
-
+            List<string> data = new List<string>();
             try {
                 MySqlCommand cmd = new MySqlCommand(petition, this.conn);
                 MySqlDataReader reader = cmd.ExecuteReader();
-                List<string> data = new List<string>(); int i = 0;
-                while (reader.Read()) {
+
+                // Convertir resultado en datos legibles para el usuario 
+                for(int i = 0; i < reader.FieldCount; ++i) {
                     data.Add(reader.GetString(i));
-                    ++i;
                 }
-                Console.Write(data[0] + " " +  data[1]);
             }
             catch (Exception ex) {
                 Console.Write("ELEMENT NOT FOUND\n" + ex.Message);
                 this.state = -1;
             }
+            return data;
         }
 
         public void update(string table, string field, string replace_condition)

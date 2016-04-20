@@ -1,0 +1,4 @@
+/home/asmateus/git/RPU5/src/obj/Debug/.NETFramework,Version=v4.5.2.AssemblyAttribute.cs
+/home/asmateus/git/RPU5/src/obj/Debug/RPU5.Properties.Resources.resources
+/home/asmateus/git/RPU5/src/obj/Debug/RPU5.exe
+/home/asmateus/git/RPU5/src/bin/Debug/MySql.Data.dll
