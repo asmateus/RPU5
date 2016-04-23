@@ -10,7 +10,9 @@
  */
 
 using System.Windows.Forms;
+using System.Collections.Generic;
 using System.Threading;
+using System;
 
 namespace RPU5
 {
@@ -26,8 +28,20 @@ namespace RPU5
             InitializeComponent();
 
             // Intentar establecer conexiones necesarias
-            connection = new Connection("127.0.0.1", 3306);
+            connection = new Connection("10.20.21.72", 3306);
+            connection.Open("rpu5", "picking", "PiCkInG");
+            //Dictionary<string, string> dict = new Dictionary<string, string>();
+            //dict.Add("nombre", "Sebas");
+            //dict.Add("sexo", "Aleatorio");
+            //connection.push("test", dict);
+            //connection.update("test", "nombre='Asuka'", "edad='51'");
 
+            List<string> temp = new List<string>();
+            temp = connection.pull("test", "nombre='Juanito'");
+            for (int i = 0; i < temp.Count; ++i)
+                Console.Write(" " + temp[i]);
+
+            // Este hilo es opcional, lo que hace es probar, periódicamente si la conexión es funciona
             status_thread = new Status(connection);
             status_thread.Start();
             

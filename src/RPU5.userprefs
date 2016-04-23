@@ -1,0 +1,16 @@
+﻿<Properties StartupItem="RPU5.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Main.cs">
+    <Files>
+      <File FileName="Connection.cs" Line="91" Column="5" />
+      <File FileName="Main.cs" Line="34" Column="13" />
+      <File FileName="Program.cs" Line="1" Column="1" />
+      <File FileName="packages.config" Line="3" Column="67" />
+      <File FileName="App.config" Line="4" Column="75" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

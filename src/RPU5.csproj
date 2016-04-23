@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="BaseThread.cs" />
     <Compile Include="Connection.cs" />
+    <Compile Include="FeedBack.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>

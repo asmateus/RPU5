@@ -8,3 +8,12 @@ C:\Users\Administrador\Desktop\base_de_datos\RPU5\src\obj\Debug\RPU5.csproj.Gene
 C:\Users\Administrador\Desktop\base_de_datos\RPU5\src\obj\Debug\RPU5.exe
 C:\Users\Administrador\Desktop\base_de_datos\RPU5\src\obj\Debug\RPU5.pdb
 C:\Users\Administrador\Desktop\base_de_datos\RPU5\src\bin\Debug\MySql.Data.dll
+C:\Users\Administrador\Desktop\RPU5-master\src\bin\Debug\RPU5.exe.config
+C:\Users\Administrador\Desktop\RPU5-master\src\obj\Debug\RPU5.exe
+C:\Users\Administrador\Desktop\RPU5-master\src\obj\Debug\RPU5.pdb
+C:\Users\Administrador\Desktop\RPU5-master\src\obj\Debug\RPU5.csprojResolveAssemblyReference.cache
+C:\Users\Administrador\Desktop\RPU5-master\src\obj\Debug\RPU5.Properties.Resources.resources
+C:\Users\Administrador\Desktop\RPU5-master\src\obj\Debug\RPU5.csproj.GenerateResource.Cache
+C:\Users\Administrador\Desktop\RPU5-master\src\bin\Debug\RPU5.exe
+C:\Users\Administrador\Desktop\RPU5-master\src\bin\Debug\RPU5.pdb
+C:\Users\Administrador\Desktop\RPU5-master\src\bin\Debug\MySql.Data.dll

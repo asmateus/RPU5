@@ -16,7 +16,7 @@ namespace RPU5
 {
     class Status : BaseThread
     {
-        private static int SLEEP_TIME = 500;
+        private static int SLEEP_TIME = 2000;
         private Connection conn;
 
         public Status(Connection conn) {
@@ -24,19 +24,24 @@ namespace RPU5
         } 
         public override void RunThread()
         {
+            FeedBack mess = new FeedBack();
             while (true)
             {
-                Thread.Sleep(SLEEP_TIME);
-
                 // Verificar conexiones
-                if (conn.status() == false)
-                {
-                    //Console.Write("NOT CONNECTED\n");
+                switch (this.conn.status()) { 
+                    case 0:
+                        mess.SendSignal("CONNECTION_IDLE");
+                        break;
+                    case -1:
+                        mess.SendSignal("CONNECTION_ERROR");
+                        this.conn.Open();
+                        break;
+                    case 1:
+                        mess.SendSignal("CONNECTION_OK");
+                        break;
                 }
-                else
-                {
-                    //Console.Write("CONNECTED\n");
-                }
+
+                Thread.Sleep(SLEEP_TIME);
             }
         }
     }
