@@ -31,15 +31,16 @@ namespace RPU5
             connection = new Connection("10.20.21.72", 3306);
             connection.Open("rpu5", "picking", "PiCkInG");
             //Dictionary<string, string> dict = new Dictionary<string, string>();
-            //dict.Add("nombre", "Sebas");
-            //dict.Add("sexo", "Aleatorio");
+            //dict.Add("nombre", "Sesdfs");
+            //dict.Add("edad", "434sdfs");
+            //dict.Add("sexo", "Asdfsf");
             //connection.push("test", dict);
-            //connection.update("test", "nombre='Asuka'", "edad='51'");
+            connection.update("Operarios", "Estacion='4'", "Nombre = 'proniela Charris'");
 
-            List<string> temp = new List<string>();
-            temp = connection.pull("test", "nombre='Juanito'");
-            for (int i = 0; i < temp.Count; ++i)
-                Console.Write(" " + temp[i]);
+            //List<string> temp = new List<string>();
+            //temp = connection.pull("operarios", "Estacion='1'");
+            //for (int i = 0; i < temp.Count; ++i)
+            //    Console.Write(" " + temp[i]);
 
             // Este hilo es opcional, lo que hace es probar, periódicamente si la conexión es funciona
             status_thread = new Status(connection);

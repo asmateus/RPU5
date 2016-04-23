@@ -100,7 +100,7 @@ namespace RPU5
             return data;
         }
 
-        public void update(string table, string field, string replace_condition)
+        public void update(string table, string replace_condition, string field)
         {
             string petition = "UPDATE " + table + " SET " + field + " WHERE " + replace_condition;
             MySqlCommand cmd = conn.CreateCommand();
