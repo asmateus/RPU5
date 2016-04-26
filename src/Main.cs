@@ -28,7 +28,7 @@ namespace RPU5
             InitializeComponent();
 
             // Intentar establecer conexiones necesarias
-            connection = new Connection("10.20.21.186", 3306);
+            connection = new Connection("10.20.21.142", 3306);
             connection.Open("rpu5", "picking", "PiCkInG");
             //Dictionary<string, string> dict = new Dictionary<string, string>();
             //dict.Add("nombre", "Sesdfs");
@@ -38,9 +38,9 @@ namespace RPU5
             //connection.update("Operarios", "Estacion='4'", "Nombre = 'proniela Charris'");
 
             List<string> temp = new List<string>();
-            temp = connection.pull("operarios", "*", "Estacion");
+            temp = connection.pullRow("orden", "EPC");
             for (int i = 0; i < temp.Count; ++i)
-                Console.Write(" " + temp[i]);
+                Console.Write("\n " + temp[i] + "\n");
 
             // Este hilo es opcional, lo que hace es probar, periódicamente si la conexión es funciona
             status_thread = new Status(connection);

@@ -103,7 +103,7 @@ namespace RPU5
             return data;
         }
 
-        public List<string> pull(string table, string where_condition, string row)
+        public List<string> pullRow(string table, string row)
         {
             List<string> row_list = new List<string>();
             string petition = "SELECT * FROM " + table;
@@ -137,11 +137,8 @@ namespace RPU5
                     }
                     int count = reader.FieldCount;
                     reader.Close();
-                    int temp = row_num;
-                    while (temp < count*row_num) {
-                        row_list.Add(full_list[temp]);
-                        temp += count;
-                    }
+                    for (int i = row_num; i < full_list.Count; i += count)
+                        row_list.Add(full_list[i]);
                 }
             }
             catch (Exception ex)
