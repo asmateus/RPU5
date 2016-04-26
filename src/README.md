@@ -17,7 +17,7 @@ Leer columnas de la base de datos:
 
 devuelve los valores de la columna indicada
 
-Actualizar campo de la base de datos
+Actualizar campo de la base de datos:
 	
 	connection.update("tabla", "condición de fila", "columna='valor nuevo'");
 
