@@ -86,10 +86,13 @@ namespace RPU5
                 MySqlCommand cmd = new MySqlCommand(petition, this.conn);
                 MySqlDataReader reader = cmd.ExecuteReader();
 
-            // Convertir resultado en datos legibles para el usuario
-                reader.Read(); 
-                for(int i = 0; i < reader.FieldCount; ++i) {
-                    data.Add(reader.GetString(i));
+                // Convertir resultado en datos legibles para el usuario
+                while (reader.Read())
+                {
+                    for (int i = 0; i < reader.FieldCount; ++i)
+                    {
+                        data.Add(reader.GetString(i));
+                    }
                 }
                 reader.Close();
             }
@@ -98,6 +101,55 @@ namespace RPU5
                 this.state = -1;
             }
             return data;
+        }
+
+        public List<string> pull(string table, string where_condition, string row)
+        {
+            List<string> row_list = new List<string>();
+            string petition = "SELECT * FROM " + table;
+            List<string> full_list = new List<string>();
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand(petition, this.conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                // Convertir resultado en datos legibles para el usuario
+                // Identify row number
+                int row_num = 0; bool ishere = false;
+                for (int i = 0; i < reader.FieldCount; ++i) {
+                    if (row == reader.GetName(i)) {
+                        row_num = i;
+                        ishere = true;
+                    }
+                }
+                if (ishere == false)
+                {
+                    return null;
+                }
+                else
+                {
+                    while (reader.Read())
+                    {
+                        for (int i = 0; i < reader.FieldCount; ++i)
+                        {
+                            full_list.Add(reader.GetString(i));
+                        }
+                    }
+                    int count = reader.FieldCount;
+                    reader.Close();
+                    int temp = row_num;
+                    while (temp < count*row_num) {
+                        row_list.Add(full_list[temp]);
+                        temp += count;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write("ELEMENT NOT FOUND\n" + ex.Message);
+                this.state = -1;
+            }
+            return row_list;
         }
 
         public void update(string table, string replace_condition, string field)
