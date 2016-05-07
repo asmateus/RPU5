@@ -17,3 +17,13 @@ C:\Users\Administrador\Desktop\RPU5-master\src\obj\Debug\RPU5.csproj.GenerateRes
 C:\Users\Administrador\Desktop\RPU5-master\src\bin\Debug\RPU5.exe
 C:\Users\Administrador\Desktop\RPU5-master\src\bin\Debug\RPU5.pdb
 C:\Users\Administrador\Desktop\RPU5-master\src\bin\Debug\MySql.Data.dll
+A:\Andres\Git\RPU5\src\bin\Debug\RPU5.exe.config
+A:\Andres\Git\RPU5\src\obj\Debug\RPU5.exe
+A:\Andres\Git\RPU5\src\obj\Debug\RPU5.pdb
+A:\Andres\Git\RPU5\src\obj\Debug\RPU5.csprojResolveAssemblyReference.cache
+A:\Andres\Git\RPU5\src\obj\Debug\RPU5.Main.resources
+A:\Andres\Git\RPU5\src\obj\Debug\RPU5.Properties.Resources.resources
+A:\Andres\Git\RPU5\src\obj\Debug\RPU5.csproj.GenerateResource.Cache
+A:\Andres\Git\RPU5\src\bin\Debug\RPU5.exe
+A:\Andres\Git\RPU5\src\bin\Debug\RPU5.pdb
+A:\Andres\Git\RPU5\src\bin\Debug\MySql.Data.dll
