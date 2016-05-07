@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseThread.cs" />
+    <Compile Include="Callbacks.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="Estacion.cs" />
     <Compile Include="FeedBack.cs" />
