@@ -29,7 +29,7 @@ namespace RPU5
 			ruta_recursos = @"A:\Andres\Git\RPU5\resources";
 
             // Abrir conexión con el servidor
-            connection = new Connection("192.168.1.7", 3306); // El puerto normalmente es 3306
+            connection = new Connection("192.168.1.7", 3306);
             connection.Open("RPU5", "rpu5", "Andre210229");
 
             // Crea los paquetes de controles
@@ -40,7 +40,7 @@ namespace RPU5
             manejador_estaciones.InitializeOpe();
 
             // Iniciar graficador
-            graficar = new graficador(ruta_recursos, GUI_estacion, manejador_estaciones); //constructor? así es el nombre Gómez? XD    
+            graficar = new graficador(ruta_recursos, GUI_estacion, manejador_estaciones);   
 
             // Establecer información de estaciones
             set_info();
