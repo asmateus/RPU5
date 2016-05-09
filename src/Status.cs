@@ -25,20 +25,22 @@ namespace RPU5
         private Connection conn;
 
 		private System.Windows.Forms.PictureBox imagenestaciones;
+
+        private List<string> table_content;
+        private List<string> table_content_prev = new List<string>();
+
 		private string[] OrdenEst = { "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting" };
 		private string[] prev_OrdenEst = { "Carro", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting" };
         private string[] sem_state = { "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray"};
-        private string[] prev_sem_state = { "gray", "green", "gray", "gray", "gray", "gray", "gray", "gray" };
         private string[] Auto = { "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA" };
-		private string[] prev_Auto = { "Si", "NA", "NA", "NA", "NA", "NA", "NA", "NA" };
 		private string[] state = { "No", "Si", "No", "No", "No", "No", "No", "No" };
-		private string[] prev_state = { "No", "No", "No", "No", "No", "No", "No", "No" };
 		private string[] marco = { "frame_gray", "frame_green", "frame_yellow", "frame_red" };
 		private int[] WarningOp = { 0, 0, 0, 0, 0, 0, 0, 0 };
 		private bool graphicate_once = false;
+        bool eq;
 
 
-		private Estacion manejador_estaciones;
+        private Estacion manejador_estaciones;
 		private Graficador graficar;
 		private Control.ControlCollection main_copy;
 
@@ -82,27 +84,12 @@ namespace RPU5
 
             // La función de los ciclos siguientes es verificar evitar que se redibuje el UI si nada
             // ha cambiado.
-			bool eq = true;
-			for (int i = 0; i < state.Length; ++i) {
-				if (state [i] != prev_state [i]) {
-					eq = false;
-				}
-				prev_state [i] = state [i];
-			}
-            for (int i = 0; i < sem_state.Length; ++i)
-            {
-                if (sem_state[i] != prev_sem_state[i])
-                {
+			eq = true;
+            for (int i = 0; i < table_content_prev.Count; ++i)
+                if (table_content_prev[i] != table_content[i]) {
                     eq = false;
+                    table_content_prev[i] = table_content[i];
                 }
-                prev_sem_state[i] = sem_state[i];
-            }
-            for (int i = 0; i < Auto.Length; ++i) {
-				if (Auto [i] != prev_Auto [i]) {
-					eq = false;
-				}
-				prev_Auto [i] = Auto [i];
-			}
 			for (int i = 0; i < OrdenEst.Length; ++i) {
 				if (OrdenEst [i] != prev_OrdenEst [i]) {
 					eq = false;
@@ -110,29 +97,35 @@ namespace RPU5
 				prev_OrdenEst [i] = OrdenEst [i];
 			}
 			if (eq == false) {
-                Console.Write("I AM REPAINTING THE GUI");
 				update_form ();
 			} 
 		}
 
 		public void checkestaciones()
 		{
+            table_content = conn.pullAll("operarios");
+            if (table_content_prev.Count == 0) {
+                for (int i = 0; i < table_content.Count; ++i)
+                    table_content_prev.Add(table_content[i]);
+            }
+            for (int i = 6, k = 5, l = 8, j = 0; i < table_content.Count; i += 9,k +=9, l += 9, ++j)
+            {
+                state[j] = table_content[i];
+                Auto[j] = table_content[k];
+                sem_state[j] = table_content[l];
+            }
 			for (int i = 1; i < 9; i++)
 			{
 				string station = "" + i;
-				state[i-1] = manejador_estaciones.getOperario(station, "Estado");
 				WarningOp[i - 1] = manejador_estaciones.OperarioWarning(station);
-				Auto[i-1] = manejador_estaciones.getOperario(station, "Autorizado");
 				OrdenEst = manejador_estaciones.OrdenEstacion(station);
-                sem_state[i - 1] = manejador_estaciones.getOperario(station, "Semaforo");
-
 			}
 		}
 
 		private void update_form()
 		{
-			// Vamos a hacer esto paso a paso
-			for (int j = 1; j < 9; ++j) {
+            // Vamos a hacer esto paso a paso
+            for (int j = 1; j < 9; ++j) {
 				graficar_marco (j);
 				graficar_conexion (j);
 				graficar_autorizacion (j);
@@ -144,16 +137,14 @@ namespace RPU5
 
 		private void graficar_marco(int j)
 		{
-            string semaforo = manejador_estaciones.getOperario("" + j, "Semaforo");
+            imagenestaciones = (PictureBox)main_copy["Frame" + j];
             if (j != 8)
             {
-                imagenestaciones = (PictureBox)main_copy["Frame" + j];
-                graficar.imagen("Frame_" + semaforo, imagenestaciones);
+                graficar.imagen("Frame_" + sem_state[j-1], imagenestaciones);
             }
             else
             {
-                imagenestaciones = (PictureBox)main_copy["Frame8"];
-                graficar.imagen("Frame_" + semaforo + "_Picking", imagenestaciones);
+                graficar.imagen("Frame_" + sem_state[j-1] + "_Picking", imagenestaciones);
             }
         }
 

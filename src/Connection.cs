@@ -217,6 +217,33 @@ namespace RPU5
             }
         }
 
+        public List<string> pullAll(string table)
+        {
+            string petition = "SELECT * FROM " + table;
+            List<string> data = new List<string>();
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand(petition, this.conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                // Convertir resultado en datos legibles para el usuario
+                while (reader.Read())
+                {
+                    for (int i = 0; i < reader.FieldCount; ++i)
+                    {
+                        data.Add(reader.GetString(i));
+                    }
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.Write("ELEMENT NOT FOUND\n" + ex.Message);
+                this.state = -1;
+            }
+            return data;
+        }
+
         public int status()
         {
             return this.state;
