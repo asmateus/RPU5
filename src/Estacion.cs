@@ -15,7 +15,7 @@ namespace RPU5
         int Warning;
         int stat;
         public static Dictionary<string, string> operariono;
-        string[] ProducEst = { "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting" };
+        string[] ProducEst = { "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting" };
         int[] sigue = { 0, 0, 0, 0, 0, 0, 0, 0 };
         Connection connection;
 
@@ -82,7 +82,7 @@ namespace RPU5
 
         }
 
-        public void OperarioNoAutorizado(string NoEsta)
+        public void OperarioNoAutorizado(int NoEsta)
         {
             //  List<string> Permiso = connection.pull("Operariosno", "Estacion='" + NoEsta + "'");
             List<string> infoperario = connection.pull("operarios", "Estacion='" + NoEsta + "'");
@@ -97,19 +97,19 @@ namespace RPU5
 
                 operariono = new Dictionary<string, string>();
                 operariono.Add("EPC", EPC);
-                operariono.Add("Estacion", NoEsta);
+                operariono.Add("Estacion", Convert.ToString(NoEsta));
                 //operariono.Add("Tiempo", "Asdfsf");
                 operariono.Add("Nombre", Nombre);
                 connection.push("operariosno", operariono);
-                sigue[Int32.Parse(NoEsta) - 1] = 1;
+                sigue[NoEsta - 1] = 1;
             }
 
         }
 
-        public int OperarioWarning(string NoEsta)
+        public int OperarioWarning(int NoEsta)
         {
             OperarioNoAutorizado(NoEsta);
-            if (sigue[Int32.Parse(NoEsta) - 1] == 1)
+            if (sigue[NoEsta - 1] == 1)
             {
                 Warning = 1;
             }
@@ -117,17 +117,16 @@ namespace RPU5
             return Warning;
         }
 
-        public string[] OrdenEstacion(string NoEsta)
+        public string[] OrdenEstacion(int NoEsta)
         {
             List<string> Orden = connection.pull("orden", "Estado='" + NoEsta + "'");
-            Int32.TryParse(NoEsta, out stat);
             if (Orden.Count != 0)
             {
 
-                ProducEst[stat - 1] = Orden[0];
+                ProducEst[NoEsta] = Orden[0];
 
             }
-            else { ProducEst[stat - 1] = "Waiting"; }
+            else { ProducEst[NoEsta] = "Waiting"; }
             return ProducEst;
         }
 

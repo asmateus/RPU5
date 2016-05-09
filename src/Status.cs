@@ -29,8 +29,8 @@ namespace RPU5
         private List<string> table_content;
         private List<string> table_content_prev = new List<string>();
 
-		private string[] OrdenEst = { "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting" };
-		private string[] prev_OrdenEst = { "Carro", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting" };
+		private string[] OrdenEst = {"Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting" };
+		private string[] prev_OrdenEst = {"Carro", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting" };
         private string[] sem_state = { "gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray"};
         private string[] Auto = { "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA" };
 		private string[] state = { "No", "Si", "No", "No", "No", "No", "No", "No" };
@@ -114,12 +114,14 @@ namespace RPU5
                 Auto[j] = table_content[k];
                 sem_state[j] = table_content[l];
             }
-			for (int i = 1; i < 9; i++)
+			for (int i = 0; i < 11; i++)
 			{
-				string station = "" + i;
-				WarningOp[i - 1] = manejador_estaciones.OperarioWarning(station);
-				OrdenEst = manejador_estaciones.OrdenEstacion(station);
+				OrdenEst = manejador_estaciones.OrdenEstacion(i);
 			}
+            for (int i = 1; i < 9; ++i)
+            {
+                WarningOp[i - 1] = manejador_estaciones.OperarioWarning(i);
+            }
 		}
 
 		private void update_form()
@@ -197,17 +199,19 @@ namespace RPU5
 
         private void graficar_picking ()
         {
-            
+            Console.Write("Hello world\n");
             string[] plotear = new string[3];
             if (conn.pullRow("orden", "Tipo").Count == 0)
             {
+                Console.Write("Empty orden\n");
                 plotear = new string[3] { OrdenEst[7], OrdenEst[7], OrdenEst[7] };
             }
             else
             {
-                Console.Write("GOT HERE");
-                //List<string> orden = connection.pullRow("orden", "Tipo");
-                List<string> orden = conn.pullse("orden", "Tipo", "Estado='9'");
+                List<string> orden = conn.pullRow("orden", "Tipo");
+                //List<string> orden = conn.pullse("orden", "Tipo", "Estado='9'");
+                for (int i = 0; i < orden.Count; ++i)
+                    Console.Write(orden[i] + " ");
                 if (orden.Count > 2)
                 {
                     plotear = new string[3] { orden[0], orden[1], orden[2] };

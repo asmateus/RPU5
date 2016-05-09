@@ -110,7 +110,7 @@ namespace RPU5
                         new_order = new Dictionary<string, string>();
                         new_order.Add("Tipo", productos[tipo][0]);
                         new_order.Add("EPC", EPCs[j, tipo]);
-                        new_order.Add("Estado", "8");
+                        new_order.Add("Estado", "0");
                         new_order.Add("Numpedido", ""+intento);
                         BaseHandler.push("orden", new_order);
                     }
