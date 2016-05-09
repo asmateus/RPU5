@@ -21,6 +21,7 @@ namespace RPU5
         private Status status_thread;
         private Graficador graficar;
 		private Estacion manejador_estaciones;
+        private Picking manejador_picking;
 
         public Main()
         {
@@ -40,6 +41,11 @@ namespace RPU5
             // Iniciar las estaciones
             manejador_estaciones = new Estacion(connection);
             manejador_estaciones.InitializeOpe();
+
+            // Iniciar picking
+            connection.truncate("orden");
+            manejador_picking = new Picking(connection);
+            manejador_picking.InitialiazePicking();
 
             // Iniciar graficador
             graficar = new Graficador(ruta_recursos, GUI_estacion, GUI_picking, manejador_estaciones, connection); 
@@ -86,8 +92,34 @@ namespace RPU5
 
         private void operariosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-        //    graficar.operarios();
+            VerOperarios h = new VerOperarios(manejador_estaciones, connection);
+            DialogResult f = h.ShowDialog();
         }
+
+        private void comenzarProcesoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            VerOperariosButton.Enabled = false;
+        }
+
+        int intento = 1; int[] pos = { 0, 0, 0 };
+        string[,] Productos;
+        private void nuevaOrdenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Console.Write("GOT HERE");
+            Nueva_Orden nueva_orden = new Nueva_Orden(connection, intento, pos);
+            DialogResult f = nueva_orden.ShowDialog();
+            pos = nueva_orden.getPosicion();
+            intento = nueva_orden.getIntento();
+            Productos = nueva_orden.getOrden();
+            if (intento > 1) { verOrdenToolStripMenuItem.Enabled = true; }
+        }
+
+        private void verOrdenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OrdenForm ver_orden = new OrdenForm(connection, ruta_recursos); //quitar eso de productos y ya .-.
+            DialogResult f = ver_orden.ShowDialog();
+        }
+
 
         private void Main_Load(object sender, EventArgs e)
         {

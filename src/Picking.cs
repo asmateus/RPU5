@@ -35,7 +35,6 @@ namespace RPU5
                 PediPick.Add("Orden", "1");
                 PediPick.Add("Tipo", Pedido[j]);
                 connection.push("pedidopicking", PediPick);
-                PediPick = new Dictionary<string, string>();
 
             }
         }
@@ -44,19 +43,6 @@ namespace RPU5
             List<string> Piezas = connection.pull("inventarioentrada", "Autorizado='Si'");
             if (Piezas.Count != 0 && unavez == 1)
             {
-                //int NumPieza = Int32.Parse(Piezas[0]);
-                //if (NumPieza < 25)
-                //{ string Pieza = ""+NumPieza;
-                //    List<string> PiezasSum = connection.pull("inventariopicking", "Pieza='"+Pieza+"'" );
-                //    for (int i = 0; i< PiezasSum.Count; i++)
-                //    {
-                //        int Piezasum = Int32.Parse(PiezasSum[2]);
-                //        Piezasum = Piezasum+1;
-                //        string cant = "" + Piezasum;
-                //        connection.update("inventariopicking", "Pieza='" + Pieza + "'", "Cantidad='"+cant+"'");
-
-                //    }
-                //}
                 connection.update("inventariopicking", "Cantidad='0'", "Cantidad='7'");
                 unavez = 0;
             }

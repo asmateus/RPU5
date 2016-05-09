@@ -31,7 +31,7 @@ namespace RPU5
         private void reloadList()
         {
             listBox1.Items.Clear();
-            for (int i = 0; i < 9; i++)
+            for (int i = 1; i < 9; i++)
             {
                 string nombre = seleccionado.getOperario(i.ToString(), "Nombre");
                 string codigo = seleccionado.getOperario(i.ToString(), "Codigo");

@@ -39,10 +39,10 @@
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.operariosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ordenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nuevaOrdenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verOrdenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.VerOperariosButton = new System.Windows.Forms.ToolStripMenuItem();
             this.comenzarProcesoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.warningsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ayudaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -195,7 +195,7 @@
             this.menuStrip1.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ordenToolStripMenuItem,
-            this.operariosToolStripMenuItem,
+            this.VerOperariosButton,
             this.comenzarProcesoToolStripMenuItem,
             this.warningsToolStripMenuItem,
             this.ayudaToolStripMenuItem});
@@ -204,13 +204,6 @@
             this.menuStrip1.Size = new System.Drawing.Size(1216, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // operariosToolStripMenuItem
-            // 
-            this.operariosToolStripMenuItem.Name = "operariosToolStripMenuItem";
-            this.operariosToolStripMenuItem.Size = new System.Drawing.Size(89, 20);
-            this.operariosToolStripMenuItem.Text = "Ver Operarios";
-            this.operariosToolStripMenuItem.Click += new System.EventHandler(this.operariosToolStripMenuItem_Click);
             // 
             // ordenToolStripMenuItem
             // 
@@ -226,12 +219,21 @@
             this.nuevaOrdenToolStripMenuItem.Name = "nuevaOrdenToolStripMenuItem";
             this.nuevaOrdenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.nuevaOrdenToolStripMenuItem.Text = "Nueva Orden";
+            this.nuevaOrdenToolStripMenuItem.Click += new System.EventHandler(this.nuevaOrdenToolStripMenuItem_Click);
             // 
             // verOrdenToolStripMenuItem
             // 
             this.verOrdenToolStripMenuItem.Name = "verOrdenToolStripMenuItem";
             this.verOrdenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.verOrdenToolStripMenuItem.Text = "Ver Orden";
+            this.verOrdenToolStripMenuItem.Click += new System.EventHandler(this.verOrdenToolStripMenuItem_Click);
+            // 
+            // VerOperariosButton
+            // 
+            this.VerOperariosButton.Name = "VerOperariosButton";
+            this.VerOperariosButton.Size = new System.Drawing.Size(89, 20);
+            this.VerOperariosButton.Text = "Ver Operarios";
+            this.VerOperariosButton.Click += new System.EventHandler(this.operariosToolStripMenuItem_Click);
             // 
             // comenzarProcesoToolStripMenuItem
             // 
@@ -753,7 +755,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(687, 403);
+            this.tabPage2.Size = new System.Drawing.Size(684, 403);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Inventario Picking";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -882,7 +884,7 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem operariosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem VerOperariosButton;
         private System.Windows.Forms.ToolStripMenuItem ordenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem comenzarProcesoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem warningsToolStripMenuItem;
