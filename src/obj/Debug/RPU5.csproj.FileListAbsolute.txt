@@ -27,3 +27,7 @@ A:\Andres\Git\RPU5\src\obj\Debug\RPU5.csproj.GenerateResource.Cache
 A:\Andres\Git\RPU5\src\bin\Debug\RPU5.exe
 A:\Andres\Git\RPU5\src\bin\Debug\RPU5.pdb
 A:\Andres\Git\RPU5\src\bin\Debug\MySql.Data.dll
+A:\Andres\Git\RPU5\src\obj\Debug\RPU5.Nueva_Orden.resources
+A:\Andres\Git\RPU5\src\obj\Debug\RPU5.Nuevo_Operario.resources
+A:\Andres\Git\RPU5\src\obj\Debug\RPU5.OrdenForm.resources
+A:\Andres\Git\RPU5\src\obj\Debug\RPU5.VerOperarios.resources

@@ -64,12 +64,13 @@ namespace RPU5
             // Construir string de peticion
             string petition = "INSERT INTO " + table + " ";
             List<string> keys = new List<string>(info.Keys);
-            foreach(string key in keys)
+            List<string> vals = new List<string>();
+            foreach (string key in keys)
             {
-                info[key] = "'" + info[key] + "'"; 
+                vals.Add("'" + info[key] + "'");
             }
             string fields = string.Join(",", info.Keys);
-            string values = string.Join(",", info.Values);
+            string values = string.Join(",", vals);
 
             petition += "(" + fields + ")" + " VALUES " + "(" + values + ")";
             // Ejecutar comando
@@ -155,6 +156,65 @@ namespace RPU5
             MySqlCommand cmd = conn.CreateCommand();
             cmd.CommandText = petition;
             cmd.ExecuteNonQuery();
+        }
+
+        public void truncate(string table)
+        {
+
+            string petition = "TRUNCATE TABLE " + table;
+            MySqlCommand cmd = conn.CreateCommand();
+            try
+            {
+                cmd.CommandText = petition;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+            }
+        }
+
+        public List<string> pullse(string table, string columna1, string where_condition)
+        {
+            string petition = "SELECT " + columna1 + " FROM " + table + " WHERE " + where_condition;
+            List<string> data = new List<string>();
+            try
+            {
+                MySqlCommand cmd = new MySqlCommand(petition, this.conn);
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                // Convertir resultado en datos legibles para el usuario
+                while (reader.Read())
+                {
+                    for (int i = 0; i < reader.FieldCount; ++i)
+                    {
+                        data.Add(reader.GetString(i));
+                    }
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.Write("ELEMENT NOT FOUND\n" + ex.Message);
+                this.state = -1;
+            }
+            return data;
+        }
+
+        public void delete(string table, string condition)
+        {
+            string petition = "DELETE FROM " + table + " WHERE " + condition;
+            try
+            {
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = petition;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.Write("ELEMENT NOT FOUND\n" + ex.Message);
+                this.state = -1;
+            }
         }
 
         public int status()

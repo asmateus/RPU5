@@ -3,18 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
 namespace RPU5
 {
     class Estacion
     {
+
         string Nombre;
         string EPC;
         int Warning;
         int stat;
-        string[] ProducEst = { "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting" };
-        int[] sigue = { 0, 0, 0, 0, 0, 0, 0 };
+        public static Dictionary<string, string> operariono;
+        string[] ProducEst = { "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting", "Waiting" };
+        int[] sigue = { 0, 0, 0, 0, 0, 0, 0, 0 };
         Connection connection;
+
+
         public Estacion(Connection connection)
         {
             this.connection = connection;
@@ -22,21 +27,22 @@ namespace RPU5
 
         public void InitializeOpe()
         {
-            for (int i = 1; i < 8; i++)
+            for (int i = 1; i < 9; i++)
             {
                 string istring = "" + i;
                 connection.update("operarios", "Estacion='" + istring + "'", "Conectado= 'No'");
                 connection.update("operarios", "Estacion='" + istring + "'", "Hora= '00:00'");
             }
 
-            
+
         }
 
         public string getOperario(string NoEsta, string info)
         {
             List<string> infoperario = connection.pull("operarios", "Estacion='" + NoEsta + "'");
             string cualidad = "algo";
-            switch (info) {
+            switch (info)
+            {
                 case "Nombre":
                     {
                         cualidad = infoperario[2];
@@ -60,13 +66,20 @@ namespace RPU5
                     }
                 case "EPC":
                     {
-                        cualidad = infoperario[4];
+                        cualidad = infoperario[0];
+                        break;
+                    }
+                case "Semaforo":
+                    {
+                        cualidad = infoperario[8];
                         break;
                     }
             }
 
             return cualidad;
-            
+
+
+
         }
 
         public void OperarioNoAutorizado(string NoEsta)
@@ -82,14 +95,13 @@ namespace RPU5
                 //}
 
 
-                Dictionary<string, string> operariono = new Dictionary<string, string>();
+                operariono = new Dictionary<string, string>();
                 operariono.Add("EPC", EPC);
                 operariono.Add("Estacion", NoEsta);
                 //operariono.Add("Tiempo", "Asdfsf");
                 operariono.Add("Nombre", Nombre);
                 connection.push("operariosno", operariono);
-                Int32.TryParse(NoEsta, out stat);
-                sigue[stat - 1] = 1;
+                sigue[Int32.Parse(NoEsta) - 1] = 1;
             }
 
         }
@@ -97,10 +109,8 @@ namespace RPU5
         public int OperarioWarning(string NoEsta)
         {
             OperarioNoAutorizado(NoEsta);
-            Int32.TryParse(NoEsta, out stat);
-            if (sigue[stat - 1] == 1)
+            if (sigue[Int32.Parse(NoEsta) - 1] == 1)
             {
-
                 Warning = 1;
             }
             else { Warning = 0; }
@@ -109,7 +119,7 @@ namespace RPU5
 
         public string[] OrdenEstacion(string NoEsta)
         {
-            List<string> Orden = connection.pull("orden", "Estado='"+NoEsta+"'");
+            List<string> Orden = connection.pull("orden", "Estado='" + NoEsta + "'");
             Int32.TryParse(NoEsta, out stat);
             if (Orden.Count != 0)
             {
@@ -121,6 +131,46 @@ namespace RPU5
             return ProducEst;
         }
 
+        public void necpiezas()
+        {
+            List<string> necpieza = connection.pull("necpiezas", "Estado='1'");
+            if (necpieza.Count != 0)
+            {
+                if (necpieza[0] != "8")
+                {
+                    connection.update("necpiezas", "Estacion='" + necpieza[0] + "' AND Pieza='" + necpieza[1] + "'", "Estado='2'");
+                }
+                if (necpieza[3] == "0")
+                {
+                    connection.delete("necpiezas", "Estado='0'");
+                }
+                if (necpieza[0] == "8")
+                {
+                    List<string> Piezas = connection.pull("inventarioentrada", "Autorizado='Si'");
+
+                    if (Piezas.Count != 0)
+                    {
+                        int NumPieza = Int32.Parse(necpieza[1]);
+
+                        string Pieza = "" + NumPieza;
+                        List<string> PiezasSum = connection.pull("inventariopicking", "Pieza='" + Pieza + "'");
+                        for (int i = 0; i < PiezasSum.Count; i++)
+                        {
+                            int Piezasum = Int32.Parse(PiezasSum[2]);
+                            Piezasum = Piezasum + 6;
+                            string cant = "" + Piezasum;
+                            connection.update("inventariopicking", "Pieza='" + Pieza + "'", "Cantidad='" + cant + "'");
+
+                        }
+
+                    }
+                    connection.update("necpiezas", "Pieza='" + necpieza[1] + "'", "Estado='0'");
+                }
+
+            }
+
+
+        }
     }
 
 

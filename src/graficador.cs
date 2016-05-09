@@ -14,21 +14,28 @@ using System.Data;
 
 namespace RPU5
 {
-    class graficador
+    class Graficador
     {
         String recursos;
+        //Pen pen; SolidBrush fondorect; Rectangle frame;
         //Graphics panel;
-        ToolTip toolTip = new ToolTip(); Control[,] ConjuntoControles; Control[] c = new Control[6]; 
+        //Point punto;
+        ToolTip toolTip = new ToolTip(); Control[,] ConjuntoControles; Control[] c = new Control[6];
+        Control[] p = new Control[8]; //Controles de picking
         Estacion estacioneshandler;
+        Connection basehandler;
 
 
-        public graficador(string rutaRecursos, Control[,] MatrizDeControles, Estacion reinodedaniela)
+        public Graficador(string rutaRecursos, Control[,] MatrizDeControlesEstaciones, Control[] ControlesPicking, Estacion reinodedaniela, Connection connection)
 
         {
             this.estacioneshandler = reinodedaniela;
+            this.basehandler = connection;
             //panel = panel_estaciones.CreateGraphics();
-            ConjuntoControles = MatrizDeControles;
+            ConjuntoControles = MatrizDeControlesEstaciones;
+            p = ControlesPicking;
             recursos = rutaRecursos;
+            
             //Aquí se configura el comportamiento del pop up
             toolTip.AutoPopDelay = 10000;
             toolTip.InitialDelay = 500;
@@ -42,46 +49,58 @@ namespace RPU5
         {
             //Para usar este método es necesario que antes de llamarlo se cree el PictureBox que se ploteará:
             //nombrePicBox = (PictureBox)this.Controls["nombreenlaGUI"+indice];
-            Console.Write(recursos+"/"+imagen);
             nombrePicBox.BackgroundImage = Image.FromFile(recursos +"/"+ imagen + ".png");
             //nombrePicBox.BackgroundImage = Image.FromFile(imagen);
             //RPU5.Properties.Resources.frame_green
             nombrePicBox.BackgroundImageLayout = ImageLayout.Stretch;
         }
 
-        public ToolTip ifoestaciones(int IndiceEstacion)
+        public ToolTip ifoestaciones(int IndiceEstacion, bool FlagAutorizado)
         {
 
             string mensaje = "Estacion " + IndiceEstacion + "\n";
             mensaje = mensaje + "Nombre del Operario: " + estacioneshandler.getOperario("" + IndiceEstacion, "Nombre") + ".\n";
             mensaje = mensaje + "Código del Operario: " + estacioneshandler.getOperario("" + IndiceEstacion, "Codigo") + ".\n";
-
-            //!!!!!!!!!!!!!!!!!!11Aqui falta colocar los intentos de no autorizacion!!!!!!!!!!!!!!
-
-            //string mensaje = "Estacion " + IndiceEstacion + "\n";
-            //mensaje = mensaje + "Nombre del Operario: " + "Carlos Nieves" + ".\n";
-            //mensaje = mensaje + "Código del Operario: " + "200055799" + ".\n";
-
-            IndiceEstacion = IndiceEstacion - 1;
-            for (int i = 0; i < 6; i++) //Esto crea el vector de pictures y labels de la estación que se requiere
+            if (FlagAutorizado==false)
             {
-                c[i] = ConjuntoControles[i, IndiceEstacion];
+                mensaje = mensaje + "EPC no autorizado: " + Estacion.operariono["EPC"];
+                
             }
-            
-            toolTip.SetToolTip(c[0], mensaje); //Aquí se setea el tooltip
-            toolTip.SetToolTip(c[1], mensaje);
-            toolTip.SetToolTip(c[2], mensaje);
-            toolTip.SetToolTip(c[3], mensaje);
-            toolTip.SetToolTip(c[4], mensaje);
+
+            if (IndiceEstacion == 8) //Si la estacion es Picking
+            {
+                toolTip.SetToolTip(p[0], mensaje); //Aquí se setea el tooltip
+                toolTip.SetToolTip(p[1], mensaje);
+                toolTip.SetToolTip(p[2], mensaje);
+                toolTip.SetToolTip(p[3], mensaje);
+                toolTip.SetToolTip(p[4], mensaje);
+                toolTip.SetToolTip(p[5], mensaje);
+                toolTip.SetToolTip(p[6], mensaje);
+            }
+            else
+            {
+                IndiceEstacion = IndiceEstacion - 1;
+                for (int i = 0; i < 6; i++) //Esto crea el vector de pictures y labels de la estación que se requiere
+                {
+                    c[i] = ConjuntoControles[i, IndiceEstacion];
+                }
+
+                toolTip.SetToolTip(c[0], mensaje); //Aquí se setea el tooltip
+                toolTip.SetToolTip(c[1], mensaje);
+                toolTip.SetToolTip(c[2], mensaje);
+                toolTip.SetToolTip(c[3], mensaje);
+                toolTip.SetToolTip(c[4], mensaje);
+            }
             return toolTip;
         }
 
-
-        //public void operarios()
-        //{
-        //    VerOperarios h = new VerOperarios(recursos);
-        //    h.Show();
-        //}
+        public string notificacionPortal(string inORout)
+        {
+            string Notificacion;
+            List<string> infoportales = basehandler.pull(inORout, "Piezas='0000'");
+            Notificacion = infoportales[3];
+            return Notificacion;
+        }
 
         public void ayuda()
         {       
