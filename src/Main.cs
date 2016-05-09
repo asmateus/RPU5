@@ -105,7 +105,6 @@ namespace RPU5
         string[,] Productos;
         private void nuevaOrdenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Console.Write("GOT HERE");
             Nueva_Orden nueva_orden = new Nueva_Orden(connection, intento, pos);
             DialogResult f = nueva_orden.ShowDialog();
             pos = nueva_orden.getPosicion();

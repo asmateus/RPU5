@@ -197,13 +197,17 @@ namespace RPU5
 
         private void graficar_picking ()
         {
+            
             string[] plotear = new string[3];
             if (conn.pullRow("orden", "Tipo").Count == 0)
-            { plotear = new string[3] { OrdenEst[7], OrdenEst[7], OrdenEst[7] }; }
+            {
+                plotear = new string[3] { OrdenEst[7], OrdenEst[7], OrdenEst[7] };
+            }
             else
             {
+                Console.Write("GOT HERE");
                 //List<string> orden = connection.pullRow("orden", "Tipo");
-                List<string> orden = conn.pullse("orden", "Tipo", "Estado = 10");
+                List<string> orden = conn.pullse("orden", "Tipo", "Estado='9'");
                 if (orden.Count > 2)
                 {
                     plotear = new string[3] { orden[0], orden[1], orden[2] };

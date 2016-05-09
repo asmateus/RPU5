@@ -12,7 +12,8 @@ namespace RPU5
 {
     partial class VerOperarios : Form
     {
-        String[] cadenas; string sel;
+        String[] cadenas;
+        string sel;
         private Estacion seleccionado;
         private Connection connectionhandler;
 
@@ -26,6 +27,7 @@ namespace RPU5
         private void VerOperarios_Load(object sender, EventArgs e)
         {
             reloadList();
+            listBox1.SetSelected(0, true);
         }
 
         private void reloadList()
@@ -71,6 +73,8 @@ namespace RPU5
             
             try
             {
+                for (int i = 0; i < cadenas.Length; ++i)
+                    Console.Write(cadenas[i] + " ");
                 Nuevo_Operario h = new Nuevo_Operario(cadenas,connectionhandler);
                 DialogResult f=h.ShowDialog();
                 reloadList();

@@ -66,20 +66,20 @@ namespace RPU5
 
                 //AQUI COLOCAR LA PARTE DE UPDATE CON CONNECTIONS
                 //Con busqueda en NoEsta=cargo y reemplazando Nombre, Codigo, EPC y NoEsta=cargoSTRING.
-                Base.update("Operarios", "Estacion='" + cargoToInt(sel[3]) + "'", "Nombre='" + nombre + "'");
-                Base.update("Operarios", "Estacion='" + cargoToInt(sel[3]) + "'", "Codigo='" + codigo + "'");
-                Base.update("Operarios", "Estacion='" + cargoToInt(sel[3]) + "'", "EPC='" + epc + "'");
-                Base.update("Operarios", "Estacion='" + cargoToInt(sel[3]) + "'", "Estacion='" + cargo + "'");
+                Base.update("operarios", "Estacion='" + cargoToInt(sel[3]) + "'", "Nombre='" + nombre + "'");
+                Base.update("operarios", "Estacion='" + cargoToInt(sel[3]) + "'", "Codigo='" + codigo + "'");
+                Base.update("operarios", "Estacion='" + cargoToInt(sel[3]) + "'", "EPC='" + epc + "'");
+                Base.update("operarios", "Estacion='" + cargoToInt(sel[3]) + "'", "Estacion='" + cargo + "'");
 
                 if (cargo.Equals(sel[3])==false) //si no hay cambio de cargo se update normal
                 {
                     //si hay cambio entonces update con busqueda en NoEsta = cargoINT
                     //reemplazando SOLO el NoEsta = sel[3]
-                    Base.update("Operarios", "Estacion='" + cargoToInt(cargo) + "'", "Estacion='" + cargoToInt(sel[3]) + "'");
+                    Base.update("operarios", "Estacion='" + cargoToInt(cargo) + "'", "Estacion='" + cargoToInt(sel[3]) + "'");
                 }
 
                 //Otro update con busqueda en NoEsta=cargoSTRING y reemplazando SOLO NoEsta=cargoINT.
-                Base.update("Operarios", "Estacion='" + cargo + "'", "Estacion='" + cargoToInt(cargo) + "'");
+                Base.update("operarios", "Estacion='" + cargo + "'", "Estacion='" + cargoToInt(cargo) + "'");
 
                 MessageBox.Show("Operario editado con éxito","Aviso");
                 this.Close();
