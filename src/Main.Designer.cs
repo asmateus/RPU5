@@ -217,14 +217,14 @@
             // nuevaOrdenToolStripMenuItem
             // 
             this.nuevaOrdenToolStripMenuItem.Name = "nuevaOrdenToolStripMenuItem";
-            this.nuevaOrdenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.nuevaOrdenToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.nuevaOrdenToolStripMenuItem.Text = "Nueva Orden";
             this.nuevaOrdenToolStripMenuItem.Click += new System.EventHandler(this.nuevaOrdenToolStripMenuItem_Click);
             // 
             // verOrdenToolStripMenuItem
             // 
             this.verOrdenToolStripMenuItem.Name = "verOrdenToolStripMenuItem";
-            this.verOrdenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.verOrdenToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.verOrdenToolStripMenuItem.Text = "Ver Orden";
             this.verOrdenToolStripMenuItem.Click += new System.EventHandler(this.verOrdenToolStripMenuItem_Click);
             // 
@@ -240,6 +240,7 @@
             this.comenzarProcesoToolStripMenuItem.Name = "comenzarProcesoToolStripMenuItem";
             this.comenzarProcesoToolStripMenuItem.Size = new System.Drawing.Size(118, 20);
             this.comenzarProcesoToolStripMenuItem.Text = "Comenzar proceso";
+            this.comenzarProcesoToolStripMenuItem.Click += new System.EventHandler(this.comenzarProcesoToolStripMenuItem_Click_1);
             // 
             // warningsToolStripMenuItem
             // 
