@@ -1,0 +1,26 @@
+
+<resources>
+    <string name="app_name">RPU5</string>
+    <string name="ingreso_pedido">Pedido</string>
+    <string name="Regreso_menu">Cancelar</string>
+    <string name="Realizar_pedido">Pedido</string>
+    <string name="Producto_1">Dinosaurio</string>
+    <string name="Producto_2">Carro</string>
+    <string name="Producto_3">Avion</string>
+    <string name="menu_estaciones">Estaciones</string>
+    <string name="menu_opciones">Configuracion</string>
+    <string name="text_IP">IP/Nombre red servidor</string>
+    <string name="text_Puerto">Puerto</string>
+	<string name="text_Usuario">Usuario</string>
+	<string name="text_Contrasena">Contrasena</string>
+	<string name="text_probar_conexion">Probar conexión</string>
+	<string name="Nomre_op">Operario</string>
+	<string name="codigo">Codigo</string>
+	<string name="autorizacion">Autorizado</string>
+	<string name="Etiqueta_Op">No Operario</string>
+	<string name="Etiqueta_Cod">No Codigo</string>
+	<string name="Etiqueta_Aut">No Autorizado</string>
+	<string name="Null">Null</string>
+	<string name="Guardar">Guardar</string>
+	<string name="Cargar">Cargar</string>
+</resources>
