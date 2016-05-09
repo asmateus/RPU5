@@ -8,7 +8,9 @@ Explicar brévemente cómo funciona la clase Connections.cs. Para conectarse con
 	connection.Open("Nombre base de datos", "usuario", "contraseña");
 
 Leer filas de una base de datos:
+
 	List<string> lista = connection.pull("tabla", "condición de fila"); 
+	
 la condición de fila es como sigue _columna='valor del campo'_, el método devuelve la fila cuyo campo de la columna indicada sea igual al valor indicado. El método se lee: *devuelve la fila donde en la columna _[columna]_ exita el valor _[valor campo]_*
 
 Leer columnas de la base de datos:
